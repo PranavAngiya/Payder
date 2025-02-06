@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+<title> Brokerage Online </title> 
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+
+<body id="widget">
+
+    <div class="container_1">
+    <h1>Brokerage Online</h1>
+    <h2>Login</h2>
+    <form>
+        <label for="username">Username</label><br><br>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">Password</label><br><br>
+        <input type="text" id="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form> <br>
+
+    <button id="navigateButton3">Forgotten Your Password</button>
+    <script>
+        document.getElementById("navigateButton3").onclick = function () {
+            window.location.href = "forgot_password.html";
+        };
+    </script>
+    
+    <h2>Go to Homepage [Temporary]</h2>
+    <button id="navigateButton1">Go</button>
+    <script>
+        document.getElementById("navigateButton1").onclick = function () {
+            window.location.href = "homepage.html";
+        };
+    </script>
+
+    <h2>Get Started</h2>
+    <button id="navigateButton2">Create Account</button>
+    <script>
+        document.getElementById("navigateButton2").onclick = function () {
+            window.location.href = "create_account.html";
+        };
+    </script>
+
+    </div>
+
+</body>
+
+</html>
