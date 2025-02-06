@@ -1,0 +1,157 @@
+html{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right,rgb(112, 156, 157), rgba(255, 255, 255, 0.642));
+}
+
+
+#widget {
+    display: flex;
+    justify-content: center;
+}
+
+#listing {
+    display: flex;
+    justify-content: right;
+}
+
+.container_1 {
+    background-color: rgb(157, 169, 180);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 40%; 
+    min-width: 350px;
+}
+
+label[for=username] {
+    color: white;
+}
+
+label[for=password] {
+    color: white;
+}
+
+label[for=password_reaffirm] {
+    color: white;
+}
+
+label[for=name] {
+    color: white;
+}
+
+label[for=email] {
+    color: white;
+}
+
+h1 {
+    color: white;
+}
+
+h2 {
+    color: white;
+}
+
+.navBar {
+    background-color: rgb(157, 169, 180);
+    height: 70px;
+    color: white;
+    padding: 10px 20px; /* Adjust padding for better spacing */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100vw; /* Use viewport width to ensure full span */
+    position: fixed; /* Keeps navbar at the top */
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0; /* Ensure no unwanted spacing */
+    box-sizing: border-box; /* Ensures padding doesn't add extra width */
+}
+
+.search_bar input[type="text"] {
+    width: 300px;  /* Adjust width */
+    height: 40px;  /* Adjust height */
+    font-size: 16px; /* Increase text size */
+}
+
+.search_bar button{
+    height: 40px; /* Match input height */
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: cadetblue;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.search_bar button:hover {
+    height: 40px; /* Match input height */
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: rgb(112, 156, 157);
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button {
+    border-radius: 4px;
+    background-color:cadetblue;
+    color:white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    border-radius: 4px;
+    background-color:rgb(112, 156, 157);
+    color:rgba(255, 255, 255, 0.642);
+    padding: 10px;
+    cursor: pointer;
+}
+
+input[type=submit] {
+    border-radius: 4px;
+    background-color:cadetblue;
+    color:white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    border-radius: 4px;
+    background-color:rgb(112, 156, 157);
+    color:rgba(255, 255, 255, 0.642);
+    padding: 10px;
+    cursor: pointer;
+}
+
+a:link {
+border-radius: 4px;
+background-color:cadetblue;
+color:white;
+text-decoration: none;
+padding: 10px;
+cursor: pointer;
+}
+
+a:hover {
+border-radius: 4px;
+background-color:rgb(112, 156, 157);
+color:rgba(255, 255, 255, 0.642);
+text-decoration: none;
+padding: 10px;
+cursor: pointer;
+}
+
