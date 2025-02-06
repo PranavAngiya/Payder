@@ -1,0 +1,19 @@
+This is a personal log of this things that need
+to be done on the front end.
+
+TODO:
+Create temporary link to homepage on login page
+
+Update login page. Space that was meant for browsing can be
+used instead to create a larger and more sophisticated search
+bar for finding a specific companies stock.
+
+Need to flesh out the features for the settings portion
+of the application such as enabling two factor authentication,
+updating personal settings, or increasing the amount on your
+current balance / adding more payment options. 
+
+Need to hammer javascript file in order to send emails to clients.
+These emails could be used for two factor authentication or
+in order to notify a client that their payment has been transferred
+successfully (email with an order number for instance).
