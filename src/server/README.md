@@ -19,7 +19,7 @@ This directory contains the backend server responsible for handling API requests
 |       **MySQL2**       | Manages MySQL database connections and queries.                                     |
 | **jsonwebtoken (JWT)** | Creates authentication tokens for secure user sessions.                             |
 
-## 🚀 Running the Server
+## Running the Server
 To start the development server with automatic reload on file changes:
 npm run dev
 
@@ -48,7 +48,7 @@ To configure sensitive data, create a .env file inside the server/ directory:
   │   ├── server.js        # Main Express Server File
 
 
-## 🛠️ API Endpoints
+## API Endpoints
 
 Authentication (/server/auth)
 _____________________________________________________________________________
