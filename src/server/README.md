@@ -34,19 +34,19 @@ To configure sensitive data, create a .env file inside the server/ directory:
 
 
 /server
-  ├── routes/              # Main API routes directory
-  │   ├── routesIndex.js   # Collects all API routes
-  │   ├── auth/
-  │   │   ├── authIndex.js # Collects all auth-related routes
-  │   │   ├── signup.js    # Signup API logic
-  │   │   ├── login.js     # Login API logic (JWT authentication)
-  │   ├── api/
-  │   │   ├── index.js     # Collects general API routes
-  │   │   ├── trading.js   # (Future) Handles trading-related requests
-  │   ├── middleware/
-  │   │   ├── authMiddleware.js # Protects API routes with JWT authentication
-  │   ├── db_setup.js      # MySQL Database Connection
-  │   ├── server.js        # Main Express Server File
+  ├── routes/              # Main API routes directory <br />
+  │   ├── routesIndex.js   # Collects all API routes <br />
+  │   ├── auth/ <br />
+  │   │   ├── authIndex.js # Collects all auth-related routes <br />
+  │   │   ├── signup.js    # Signup API logic <br />
+  │   │   ├── login.js     # Login API logic (JWT authentication) <br />
+  │   ├── api/ <br />
+  │   │   ├── index.js     # Collects general API routes <br />
+  │   │   ├── trading.js   # (Future) Handles trading-related requests <br />
+  │   ├── middleware/ <br />
+  │   │   ├── authMiddleware.js # Protects API routes with JWT authentication <br />
+  │   ├── db_setup.js      # MySQL Database Connection <br />
+  │   ├── server.js        # Main Express Server File <br />
 
 
 ## API Endpoints
