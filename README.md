@@ -1,13 +1,30 @@
 # Payder
- AI-Powered Trading Simulator
 
-Google Docs Link for Website Planning: https://docs.google.com/document/d/1LZNU5HSjNwkSa0gHM6_UC7K3pLeR-8Uok0LVjuEJgH0/edit?usp=sharing
+**AI-Powered Trading Simulator**
 
-To fix incorrect port issues and to change SQL server port, create my.cnf file in /etc/ and type the following information:
+Welcome to **Payder**, an AI-powered trading simulator designed to help users simulate and test trading strategies in a dynamic market environment.
+
+---
+
+## Website Planning
+
+For an in-depth look at our website planning and design strategy, please refer to our detailed [Google Docs Website Planning Document](https://docs.google.com/document/d/1LZNU5HSjNwkSa0gHM6_UC7K3pLeR-8Uok0LVjuEJgH0/edit?usp=sharing).
+
+---
+
+## Configuration
+
+If you encounter incorrect port issues or need to change the SQL server port, you can resolve this by creating a `my.cnf` file in the `/etc/` directory with the following configuration:
+
+```ini
 [mysqld]
 port = 8080
+```
+---
 
-Directory Structure:
+## Directory Structure:
+
+```bash
 /src
   ├── client/                  # Frontend (HTML, CSS, JS)
   │   ├── pages/               # HTML Files
@@ -37,3 +54,5 @@ Directory Structure:
   ├── package.json             # Project dependencies and scripts
   ├── .env                     # (Optional) Stores environment variables
   ├── README.md                # (Optional) Documentation
+
+```
