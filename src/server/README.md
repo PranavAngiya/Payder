@@ -1,31 +1,60 @@
-This is used to run the server that will communicate with not just the front-end webapplication but also the python scripts.
-Packages and their Use:
-1. Nodemon: This is used to update the server as any changes are saved to the javascript file without having to relaunch the server. 
-2. Express: This is used to host the server on a given port
-3. Bcrypt: Encryption package to securely store the password to the SQL Database
+# Payder - Backend Server
 
-To fix incorrect port issues and to change SQL server port, create my.cnf file in /etc/ and type the following information:
-[mysqld]
-port = 8080
+This directory contains the backend server responsible for handling API requests, database interactions, and user authentication. It communicates with both the **front-end web application** and **Python scripts** for AI-powered trading operations.
+
+## Features
+- **User Authentication**: Secure login and signup using **JWT & bcrypt**.
+- **REST API**: Serves as the backend API for the trading simulator.
+- **Database Management**: Connects with MySQL to store user data.
+- **Cross-Origin Resource Sharing (CORS)**: Enables frontend-backend communication.
+
+## Installed Packages & Their Use
+|        Package         |                                      Purpose                                        |
+|------------------------|-------------------------------------------------------------------------------------|
+|      **Nodemon**       | Auto-restarts the server when file changes are detected.                            |
+|      **Express**       | Runs the backend server and handles HTTP requests.                                  |
+|       **Bcrypt**       | Securely hashes and verifies user passwords.                                        |
+|       **Dotenv**       | Manages environment variables securely.                                             |
+|        **Cors**        | Enables the frontend (running on a different port) to communicate with the backend. |
+|       **MySQL2**       | Manages MySQL database connections and queries.                                     |
+| **jsonwebtoken (JWT)** | Creates authentication tokens for secure user sessions.                             |
+
+## 🚀 Running the Server
+To start the development server with automatic reload on file changes:
+npm run dev
+
+To start the server in production mode:
+
+npm start
+
+## Environment Variables (.env File)
+To configure sensitive data, create a .env file inside the server/ directory:
+
+## Directory Structure (Server)
+
+/server
+  ├── routes/              # Main API routes directory
+  │   ├── routesIndex.js   # Collects all API routes
+  │   ├── auth/
+  │   │   ├── authIndex.js # Collects all auth-related routes
+  │   │   ├── signup.js    # Signup API logic
+  │   │   ├── login.js     # Login API logic (JWT authentication)
+  │   ├── api/
+  │   │   ├── index.js     # Collects general API routes
+  │   │   ├── trading.js   # (Future) Handles trading-related requests
+  │   ├── middleware/
+  │   │   ├── authMiddleware.js # Protects API routes with JWT authentication
+  │   ├── db_setup.js      # MySQL Database Connection
+  │   ├── server.js        # Main Express Server File
 
 
-Run the following script to initialize database
+## 🛠️ API Endpoints
 
-CREATE DATABASE IF NOT EXISTS myapp;
-
-USE myapp;
-
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(20),
-    experience_level ENUM('Beginner', 'Intermediate', 'Advanced') NOT NULL,
-    investment_goals TEXT,
-    account_balance DECIMAL(15,2) DEFAULT 0.00
-);
+Authentication (/server/auth)
+_____________________________________________________________________________
+|  Method  |       Endpoint       |              Description                 |
+|----------|----------------------|------------------------------------------|
+| **POST** |  /server/auth/signup |           Registers a new user           |
+| **POST** |  /server/auth/login  |  Logs in a user and returns a JWT token  |
 
 
-To run the server, type "npx nodemon server.js"

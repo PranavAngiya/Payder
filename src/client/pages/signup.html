@@ -15,18 +15,15 @@
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-            <input type="tel" name="phone" placeholder="Phone Number" required>
-            <select name="experience_level" required>
-                <option value="">Select Experience Level</option>
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-            </select>
-            <input type="text" name="investment_goals" placeholder="Investment Goals (e.g., Long-term, Day Trading)" required>
-            <button onclick="window.location.href='login.html'">Sign Up</button>
+            <button type="submit">Sign Up</button>
         </form>
         <br>
         <button onclick="window.location.href='login.html'">Back to Sign In</button>
     </div>
+
+    <script type="module" src="../scripts/auth/signup.js"></script>
+    <!-- <script src="../scripts/utils/error.js"></script> -->
+
+
 </body>
 </html>
