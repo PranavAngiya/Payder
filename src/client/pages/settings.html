@@ -8,7 +8,6 @@
     </head>
     <body>
 
-
         <div class="navBar">
             <div id="listing">
                 <ul>
@@ -16,9 +15,12 @@
                     <button id="settings">Account-Settings</button>
                     <button id="history">History</button>
                     <button id="logout">Sign-Out</button>
+                    Hello: 
+                    <span id="username">Unauthorized User</span>
                 </ul>
             </div>      
         </div>
+
 
         <script type="module">
             import { getUsernameFromToken } from "../scripts/utils/authCheck.js";
@@ -56,4 +58,23 @@
         </script>
 
     </body>
+
+    <br>
+    <br>
+    <br>
+
+    <body>
+        <div class="container">
+            <h3>Finance</h3>
+            <button onclick="window.location.href='financial.html'">Configure Financial Settings</button>
+            <br>
+            <h3>Account</h3>
+            <button onclick="window.location.href='updateAccount.html'">Update Account</button>
+            <br>
+            <h3>Authentication</h3>
+            <button onclick="window.location.href='twoFactor.html'">Update Account</button>
+        </div>
+    </body>
+
+
 </html>

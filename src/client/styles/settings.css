@@ -11,45 +11,40 @@ html{
     background-color: rgb(157, 169, 180);
     height: 70px;
     color: white;
-    padding: 10px 20px; /* Adjust padding for better spacing */
+    padding: 10px 20px;
+    margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100vw; /* Use viewport width to ensure full span */
-    position: fixed; /* Keeps navbar at the top */
+    width: 100vw; 
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    margin: 0; /* Ensure no unwanted spacing */
-    box-sizing: border-box; /* Ensures padding doesn't add extra width */
+    margin: 0; 
+    box-sizing: border-box; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.search_bar input[type="text"] {
-    width: 300px;  /* Adjust width */
-    height: 40px;  /* Adjust height */
-    font-size: 16px; /* Increase text size */
+#listing {
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
+    margin-left:auto;
 }
 
-.search_bar button{
-    height: 40px; /* Match input height */
-    padding: 8px 16px;
-    font-size: 16px;
-    border-radius: 5px;
-    background-color: cadetblue;
-    color: white;
-    cursor: pointer;
-    border: none;
-}
-
-.search_bar button:hover {
-    height: 40px; /* Match input height */
-    padding: 8px 16px;
-    font-size: 16px;
-    border-radius: 5px;
-    background-color: rgb(112, 156, 157);
-    color: white;
-    cursor: pointer;
-    border: none;
+.container {
+    background-color: rgb(201, 208, 213);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 40%; 
+    min-width: 350px;
 }
 
 button {
