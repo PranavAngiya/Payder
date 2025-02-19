@@ -32,30 +32,6 @@ html{
     margin-left:auto;
 }
 
-.search_bar input[type="text"] {
-    width: 300px;  
-    height: 40px;  
-    font-size: 16px; 
-}
-
-.search_bar button{
-    border-radius: 4px;
-    background-color:cadetblue;
-    color:white;
-    text-decoration: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.search_bar button:hover {
-    border-radius: 4px;
-    background-color:rgb(112, 156, 157);
-    color:rgba(255, 255, 255, 0.642);
-    text-decoration: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
 button {
     border-radius: 4px;
     background-color:cadetblue;

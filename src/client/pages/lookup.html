@@ -5,12 +5,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title> Transaction History </title> 
-        <link rel="stylesheet" href="../styles/history.css">
+        <link rel="stylesheet" href="../styles/lookup.css">
     </head>
 
     <body>
 
         <div class="navBar">
+
+            <div class = search_bar>
+                <input type="text" placeholder="Browse stocks" />
+                <button type="submit">Search<i class="fa-search"></i></button>
+            </div>
 
             <div id="listing">
                 <ul>
@@ -40,11 +45,6 @@
             // Re-enter home page
             document.getElementById("homepage").addEventListener("click", function() {
                 window.location.href = "userHome.html";
-            });
-
-            //Enter a stock lookup tab
-            document.getElementById("lookup").addEventListener("click", function() {
-                window.location.href = "lookup.html";
             });
     
             // Enter into settings

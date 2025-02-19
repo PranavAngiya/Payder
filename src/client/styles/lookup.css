@@ -11,13 +11,12 @@ html{
     background-color: rgb(157, 169, 180);
     height: 70px;
     color: white;
-    padding: 10px 20px;
-    margin-left: auto;
+    padding: 10px 20px; 
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100vw; 
-    position: fixed;
+    position: fixed; 
     top: 0;
     left: 0;
     right: 0;
@@ -33,28 +32,28 @@ html{
     margin-left:auto;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh; 
-    margin: 0;
-    background-color: linear-gradient(to right,rgb(112, 156, 157), rgba(255, 255, 255, 0.642)); 
+.search_bar input[type="text"] {
+    width: 300px;  
+    height: 40px;  
+    font-size: 16px; 
 }
 
-.container {
-    background-color: rgb(201, 208, 213);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: 40%;
-    min-width: 350px;
+.search_bar button{
+    border-radius: 4px;
+    background-color:cadetblue;
+    color:white;
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search_bar button:hover {
+    border-radius: 4px;
+    background-color:rgb(112, 156, 157);
+    color:rgba(255, 255, 255, 0.642);
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
 }
 
 button {

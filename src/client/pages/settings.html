@@ -12,6 +12,7 @@
             <div id="listing">
                 <ul>
                     <button id="homepage">Portfolio</button>
+                    <button id="lookup">Stock Lookup</button>
                     <button id="settings">Account-Settings</button>
                     <button id="history">History</button>
                     <button id="logout">Sign-Out</button>
@@ -21,6 +22,18 @@
             </div>      
         </div>
 
+        <div class="container">
+            <h3>Finance</h3>
+            <button id="finance">Configure Financial Settings</button>
+            <br>
+            <h3>Account</h3>
+            <button id="updateAccount">Update Account</button>
+            <br>
+            <h3>Authentication</h3>
+            <button id="turnOn">Enable TFA</button>
+            <br>
+            <button id="turnOff">Disable TFA</button>
+        </div>
 
         <script type="module">
             import { getUsernameFromToken } from "../scripts/utils/authCheck.js";
@@ -36,6 +49,11 @@
             // Re-enter home page
             document.getElementById("homepage").addEventListener("click", function() {
                 window.location.href = "userHome.html";
+            });
+
+            //Enter a stock lookup tab
+            document.getElementById("lookup").addEventListener("click", function() {
+                window.location.href = "lookup.html";
             });
     
             // Enter into settings
@@ -53,50 +71,23 @@
                 localStorage.removeItem("authToken");
                 window.location.href = "login.html";
             });
-    
-    
+
+            //Update financial settings
+            document.getElementById("finance").addEventListener("click", function() {
+                window.location.href = "finance.html";
+            });
+
+            //Update account settings
+            document.getElementById("updateAccount").addEventListener("click", function() {
+                window.location.href = "accountConfig.html"
+            });
+
+            //Enable/Disable Two Factor Authentication
+            document.getElementById("authentication").addEventListener("click", function() {
+                window.location.href = "authentication.html"
+            });
+
         </script>
 
     </body>
-
-    <br>
-    <br>
-    <br>
-
-    <body>
-        <div class="container">
-            <h3>Finance</h3>
-            <button id="finance">Configure Financial Settings</button>
-            <br>
-            <h3>Account</h3>
-            <button id="updateAccount">Update Account</button>
-            <br>
-            <h3>Authentication</h3>
-            <button id="authentication">Configure Security Settings</button>
-        </div>
-    </body>
-
-    <script type="module">
-
-        //Update financial settings
-        document.getElementById("finance").addEventListener("click", function() {
-            window.location.href = "finance.html";
-        });
-
-        //Update account settings
-        document.getElementById("updateAccount").addEventListener("click", function() {
-            //Display settings to update information based on conditional
-        });
-
-        //Update 
-        document.getElementById("homep").addEventListener("click", function() {
-            //Display settings to turn on and off two factor authentication   
-        });
-
-        
-
-
-    </script>
-
-
 </html>
