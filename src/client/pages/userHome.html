@@ -34,42 +34,23 @@
         import {getUsernameFromToken} from "../scripts/utils/authCheck.js";
         import {apiRequest} from "../scripts/api.js";
 
-        async function getBalance(username) {
-
-            if (!username) {
-                console.error("Username not found in token.");
-                return null;
-            }
-
-            const response = await apiRequest("/balance", "POST", { username });
-            
-            if (response.success) {
-                return response.data.balance;
-            } else {
-                console.error("Error fetching balance:", response.message);
-                return null;
-            }
-        }
-
-        async function displayUserData(){
+        async function displayUserData() {
 
             const username = getUsernameFromToken();
             if (username) {
                 document.getElementById("username").textContent = username;
             }
 
-            const response = await getBalance(username);
-            console.log(response);
+            const response = await apiRequest("/api/balance", "POST", { username });
 
-            if (balance !== null) { 
-                document.getElementById("balance").textContent = balance;
+            if (response.data.balance != null) { 
+                document.getElementById("balance").textContent = response.data.balance;
             } else {
                 document.getElementById("balance").textContent = "Error";
             }
-            
         }
 
-        // Display the username
+        // Display the username and balance
         document.addEventListener("DOMContentLoaded", displayUserData);
 
         // Re-enter home page

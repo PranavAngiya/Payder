@@ -26,6 +26,8 @@
                     <button id="logout">Sign-Out</button>
                     Hello: 
                     <span id="username">Unauthorized User</span>
+                    Current Balance: 
+                    <span id="balance">Error</span>
                 </ul>
             </div>
             
@@ -33,14 +35,26 @@
     
         <script type="module">
             import { getUsernameFromToken } from "../scripts/utils/authCheck.js";
-    
-            // Display the username
-            document.addEventListener("DOMContentLoaded", () => {
+            import {apiRequest} from "../scripts/api.js";
+
+            async function displayUserData() {
+
                 const username = getUsernameFromToken();
                 if (username) {
                     document.getElementById("username").textContent = username;
                 }
-            });
+
+                const response = await apiRequest("/api/balance", "POST", { username });
+
+                if (response.data.balance != null) { 
+                    document.getElementById("balance").textContent = response.data.balance;
+                } else {
+                    document.getElementById("balance").textContent = "Error";
+                }
+            }
+
+            // Display the username and balance
+            document.addEventListener("DOMContentLoaded", displayUserData);
     
             // Re-enter home page
             document.getElementById("homepage").addEventListener("click", function() {
