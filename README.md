@@ -12,6 +12,10 @@ For an in-depth look at our website planning and design strategy, please refer t
 
 ---
 
+## Presentation Demo Link
+
+[Proposal Presentation Link] (https://docs.google.com/presentation/d/1fvGwitibnZKBRjec-Gcs3rNov8Fio2V7awzI17Dlv6g/edit?usp=sharing)
+
 ## Configuration
 
 If you encounter incorrect port issues or need to change the SQL server port, you can resolve this by creating a `my.cnf` file in the `/etc/` directory with the following configuration:

@@ -79,3 +79,5 @@ JWT_SECRET=
 | **POST** | [/server/auth/signup](https://github.com/PranavAngiya/Payder/blob/main/src/server/routes/auth/signup.js) | Registers a new user |
 | **POST** | [/server/auth/login](https://github.com/PranavAngiya/Payder/blob/main/src/server/routes/auth/login.js) | Logs in a user and returns a JWT token |
 
+## SQL Database Setup
+To setup the Database on SQL, we will need to initialize the database. [db_setup.js](https://github.com/PranavAngiya/Payder/blob/main/src/server/db_setup.js) will be used to create the database and tables. However, the schema can be found in [schema.sql](https://github.com/PranavAngiya/Payder/blob/main/src/server/schema.sql).
