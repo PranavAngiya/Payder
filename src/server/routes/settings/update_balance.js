@@ -14,10 +14,8 @@ router.post('/', async (req, res) => {
 
     try{
         //Check if fields are empty
-        if(!username){
-            return res.status(400).json({message: "No username field."});
-        }else if(!dollar_bills){
-            return res.status(400).json({message: "No ticker field."})
+        if(!username || !dollar_bills){
+            return res.status(400).json({message: "Missing field(s) present."});
         }else{
 
             //All fields are properly filled
@@ -37,16 +35,13 @@ router.post('/', async (req, res) => {
             }
 
             if(isFloat(dollar_bills)){
+                
                 let more_monay = 0;
                 more_monay = balance + dollar_bills;
                 query = 'UPDATE users SET account_balance = ? WHERE user.id = ?';
-                const update_result = await db.query(query, [more_monay, userID])
-                if(update_result === 200){
-                    return res.status(200).json({message: "Account balance successfully updated."});
-                }else{
-                    return res.status(400).json({message: "Error in updating account_balance."})
-                }
-
+                await db.query(query, [more_monay, userID])
+                return res.status(200).json({message: "Account balance successfully updated."});
+                
             }else{
                 return res.status(400).json({message: "The amount of money you wanted to add to your balance is not a float."})
             }

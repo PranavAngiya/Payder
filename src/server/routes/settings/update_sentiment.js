@@ -10,14 +10,8 @@ router.post('/', async (req, res) => {
 
     try{
         //Check if username or password fields are 
-        if(!username){
-            return res.status(400).json({message: "No username field."});
-        }else if(!updated_risk_tolerance){
-            return res.status(400).json({message: "No tolerance field."});
-        }else if(!updated_experience){
-            return res.status(400).json({message: "No experience field."})
-        }else if(!updated_goals){
-            return res.status(400).json({message: "No goals field."});
+        if(!username || !updated_risk_tolerance || !updated_experience || !updated_goals){
+            return res.status(400).json({message: "Missing field(s) present."});
         }else{
 
             //Get a user through their username

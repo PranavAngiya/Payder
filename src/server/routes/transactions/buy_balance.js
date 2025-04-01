@@ -10,14 +10,8 @@ router.post('/', async (req, res) => {
 
     try{
         //Check if fields are empty
-        if(!username){
-            return res.status(400).json({message: "No username field."});
-        }else if(!ticker){
-            return res.status(400).json({message: "No ticker field."})
-        }else if(!quantity){
-            return res.status(400).json({message: "No quantity field."})
-        }else if(!curr_price){
-            return res.status(400).json({message: "No curr_price field."});
+        if(!username || !ticker || !quantity || !curr_price){
+            return res.status(400).json({message: "Missing field(s) present."});
         }else{
 
             //All fields are properly filled
@@ -49,12 +43,8 @@ router.post('/', async (req, res) => {
 
                 //There are currently no stocks in your portfolio
                 query = 'INSERT INTO portfolio (f_id, ticker, quantity) VALUES (?,?,?)';
-                const update_result = await db.query(query, [userID, ticker, quantity]);
-                if (update_result === 200){
-                    return res.status(200).json({message: "Transaction completed."});
-                }else{
-                    return res.status(400).json({message: "Error in making transaction."})
-                }
+                await db.query(query, [userID, ticker, quantity]);
+                return res.status(200).json({message: "Transaction completed."});
                 
             }else{ 
                 
@@ -78,15 +68,9 @@ router.post('/', async (req, res) => {
                     
                     //Insert new purchased stock into your portfolio
                     query = 'INSERT INTO portfolio (f_id, ticker, quantity) VALUES (?,?,?)';
-                    const update_result = await db.query(query, [userID, ticker, quantity]);
-                    if(update_result === 200){
-
-                        balance -= quantity*curr_price;
-
-                        return res.status(200).json({message: "Transaction completed."});
-                    }else{
-                        return res.status(400).json({message: "Error in making transaction."});
-                    }
+                    await db.query(query, [userID, ticker, quantity]);
+                    balance -= quantity*curr_price;
+                    return res.status(200).json({message: "Transaction completed."});
 
                 }else{
                     //Update the quantity of shares that you currently have in your posession.
@@ -95,12 +79,8 @@ router.post('/', async (req, res) => {
                     shares_owned += quantity;
                     query = 'UPDATE portfolio SET quantity = ? WHERE p_id = ?';
                     const update_result = await db.query(query, [shares_owned, portfolio_id]);
-
-                    if(update_result === 200){
-                        return res.status(200).json({message: "Transaction completed."});
-                    }else{
-                        return res.status(400).json({message: "Error in making transaction."});
-                    }
+                    return res.status(200).json({message: "Transaction completed."});
+                    
                 }
             }
         }

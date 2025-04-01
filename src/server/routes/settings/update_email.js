@@ -10,10 +10,8 @@ router.post('/', async (req, res) => {
 
     try{
         //Check if username or password fields are 
-        if(!username){
-            return res.status(400).json({message: "No username field."});
-        }else if(!updated_email){
-            return res.status(400).json({message: "No email field."});
+        if(!username || !updated_email){
+            return res.status(400).json({message: "Missing field(s) present."});
         }else{
 
             //Get a user through their username
@@ -21,6 +19,15 @@ router.post('/', async (req, res) => {
             const user = await db.query(query, [username]);
             if(user.length === 0){
                 return res.status(400).json({message: "There is no user with the provided username."});
+            }
+
+            const checkQuery = 'SELECT * FROM users WHERE email = ?';
+            const existingUser = await db.query(checkQuery, [email]);
+
+            if (existingUser.length > 0) {
+                if (existingUser[0].email === email) {
+                    return res.status(400).json({ message: "Email already exists!" });
+                }
             }
 
             const userID = user[0].id;

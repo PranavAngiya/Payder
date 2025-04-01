@@ -10,14 +10,8 @@ router.post('/', async (req, res) => {
 
     try{
         //Check if fields are empty
-        if(!username){
-            return res.status(400).json({message: "No username field."});
-        }else if(!ticker){
-            return res.status(400).json({message: "No ticker field."})
-        }else if(!quantity){
-            return res.status(400).json({message: "No quantity field."})
-        }else if(!curr_price){
-            return res.status(400).json({message: "No curr_price field."});
+        if(!username || !ticker || !quantity || !curr_price){
+            return res.status(400).json({message: "Missing field(s)."});
         }else{
 
             //All fields are properly filled
@@ -73,38 +67,25 @@ router.post('/', async (req, res) => {
 
                         //Clear the stock so that the stock no longer appears in your list of managed stocks in your portfolio
                         query = 'DELTE FROM portfolio WHERE portfolio.p_id = ?';
-                        const update_result = await db.query(query, [portfolio_id]);
-
-                        if(update_result === 200){
-                            //Update the balance
-                            let updated_balance = balance + quantity*curr_price;
-                            query = 'UPDATE users SET account_balance = ? WHERE user.id = ?';
-                            update_result = await db.query(query, [updated_balance, userID]);
-                            if(update_result === 200){
-                                return res.status(200).json({message: "Account balance updated successfully."});
-                            }else{
-                                return res.status(400).json({message: "Account balance was not able to be updated."})
-                            }
-                        }else{
-                            return res.status(400).json({message: "Error in making transaction."});
-                        }
-
+                        await db.query(query, [portfolio_id]);
+                        //Update the balance
+                        let updated_balance = balance + quantity*curr_price;
+                        query = 'UPDATE users SET account_balance = ? WHERE user.id = ?';
+                        update_result = await db.query(query, [updated_balance, userID]);
+                        return res.status(200).json({message: "Account balance updated successfully."});
+                            
                     }else{
 
                         //Update number of shares in your portfolio directory
                         shares_owned -= quantity;
                         query = 'UPDATE portfolio SET quantity = ? WHERE p_id = ?';
-                        const update_result = await db.query(query, [shares_owned, portfolio_id]);
-
-                        if(update_result === 200){
-                            //Update your current balance
-                            let updated_balance = balance + quantity*curr_price;
-                            query = 'UPDATE users SET account_balance = ? WHERE user.id = ?';
-                            update_result = await db.query(query, [updated_balance, userID]);
-                            return res.status(200).json({message: "Transaction completed."});
-                        }else{
-                            return res.status(400).json({message: "Error in making transaction."});
-                        }
+                        await db.query(query, [shares_owned, portfolio_id]);
+                        //Update your current balance
+                        let updated_balance = balance + quantity*curr_price;
+                        query = 'UPDATE users SET account_balance = ? WHERE user.id = ?';
+                        update_result = await db.query(query, [updated_balance, userID]);
+                        return res.status(200).json({message: "Transaction completed."});
+                        
 
                     }
                 }
