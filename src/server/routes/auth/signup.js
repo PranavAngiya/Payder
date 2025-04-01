@@ -5,6 +5,8 @@ const db = require('../../db_setup');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+
+    //Need to add sentiment fields to the users table
     const { full_name, email, username, password } = req.body;
     
     // Make sure the fields are not empty
