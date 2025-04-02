@@ -13,6 +13,6 @@ router.use('/update_balance', update_balance_route);
 router.use('/update_username', update_username_route);
 router.use('/update_sentiment', update_sentiment_route);
 router.use('/update_email', update_email_route);
-router.user('/update_password', update_password_route);
+router.use('/update_password', update_password_route);
 
 module.exports = router;
