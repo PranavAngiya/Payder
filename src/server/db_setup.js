@@ -66,14 +66,15 @@ const createSentimentTable = `
         tolerance INT,
         experience INT,
         goals INT,
-        id INT FOREIGN KEY REFERENCES users(id)
+        user_id INT,
+        FOREIGN KEY (user_id) REFERENCES users(id)
     )`;
 db.query(createSentimentTable, err => {
     if (err){
         console.error('Error creating users table:', err);
         process.exit(1);
     };
-    console.log("Users table verified");
+    console.log("Sentiment table verified");
 });
 
 const createPortfolioTable = `
@@ -81,14 +82,16 @@ const createPortfolioTable = `
         f_id INT AUTO_INCREMENT PRIMARY KEY,
         ticker VARCHAR(5),
         quantity INT,
-        id INT FOREIGN KEY REFERENCES users(id)
+        user_id INT,
+        FOREIGN KEY (user_id) REFERENCES users(id)
     )`;
+
 db.query(createPortfolioTable, err => {
     if (err){
         console.error('Error creating users table:', err);
         process.exit(1);
     };
-    console.log("Users table verified");
+    console.log("Portfolio table verified");
 });
 
 module.exports = db;

@@ -4,13 +4,18 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Transaction History </title> 
-        <link rel="stylesheet" href="../styles/finance.css">
+        <title> Stock </title> 
+        <link rel="stylesheet" href="../../styles/lookup.css">
     </head>
 
     <body>
 
         <div class="navBar">
+
+            <div class = "search_bar">
+                <input type="text" id="searchBar" placeholder="Enter Stock Symbol or Name" />
+                <button type="submit" id="searchButton">Search<i class="fa-search"></i></button>
+            </div>
 
             <div id="listing">
                 <ul>
@@ -27,11 +32,18 @@
             </div>
             
         </div>
+
+        <div class="container">
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+            <h1>Hello</h1>
+        </div>
     
         <script type="module">
-
-            import { getUsernameFromToken } from "../scripts/utils/authCheck.js";
-            import {apiRequest} from "../scripts/api.js";
+            import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
+            import {apiRequest} from "../../scripts/api.js";
 
             async function displayUserData() {
 
@@ -51,15 +63,28 @@
 
             // Display the username and balance
             document.addEventListener("DOMContentLoaded", displayUserData);
+
+            async function searching() {
+
+                const stockSymbol = document.getElementById("searchBar").value.trim().toUpperCase();
+
+                if (stockSymbol) { 
+                    // Make the container visible by adding the class
+                    document.querySelector(".container").classList.add("visible");
+
+                } else {
+                    // Handle empty search (optional)
+                    console.log("Please enter a stock symbol");
+                }
+
+            }
+
+            // Display the username and balance
+            document.getElementById("searchButton").addEventListener('click', searching)
     
             // Re-enter home page
             document.getElementById("homepage").addEventListener("click", function() {
                 window.location.href = "userHome.html";
-            });
-
-            //Enter a stock lookup tab
-            document.getElementById("lookup").addEventListener("click", function() {
-                window.location.href = "lookup.html";
             });
     
             // Enter into settings
@@ -80,32 +105,6 @@
     
     
         </script>
-
-        <br><br>
-        <div class="container">
-            <h3>Add to Account Balance</h3>
-            <form>
-                <h4>Name on Credit Card Number</h4>
-                <input type="text" name="name" placeholder="User's Name" required> 
-                <br>
-                <h4>Credit Card Number</h4>
-                <input type="password" name="creditCard" placeholder="Please input your credit card number." required>
-                <br>
-                <h4>CVV</h4>
-                <input type="password" name="cvv" placeholder="Please input CVV." required>
-                <br>
-                <h4>Card Expiration Month</h4>
-                <input type="text" name="expiration_month" placeholder="Expiration Month" required>
-                <br>
-                <h4>Card Expiration Year</h4>
-                <input type="text" name="expiration_year" placeholder="Expiration Year" required>
-                <br><br>
-                <h4>How much would you like to add?</h4>
-                <input type="text" name="sum" placeholder="Addition Amount" required> 
-                <br><br>
-                <button type="submit">Add to Balance</button>
-            </form>  
-        </div>
 
     </body>
 

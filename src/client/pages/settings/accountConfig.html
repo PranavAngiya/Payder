@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Account-Settings </title> 
-        <link rel="stylesheet" href="../styles/settings.css">
+        <title> Transaction History </title> 
+        <link rel="stylesheet" href="../../styles/accountConfig.css">
     </head>
+
     <body>
 
         <div class="navBar">
+
             <div id="listing">
                 <ul>
                     <button id="homepage">Portfolio</button>
@@ -21,25 +24,34 @@
                     Current Balance: 
                     <span id="balance">Error</span>
                 </ul>
-            </div>      
+            </div>
+            
         </div>
 
         <div class="container">
-            <h3>Finance</h3>
-            <button id="finance">Configure Financial Settings</button>
-            <br>
-            <h3>Account</h3>
-            <button id="updateAccount">Update Account</button>
-            <br>
-            <h3>Authentication</h3>
-            <button id="turnOn">Enable TFA</button>
-            <br>
-            <button id="turnOff">Disable TFA</button>
+            <form>
+                <h4>Update Username</h4>
+                <input type="text" name="name" placeholder="Username" required>
+                <br><br>
+                <button type="submit">Update</button>
+            </form>
+            <form>
+                <h4>Update Password</h4>
+                <input type="text" name="password" placeholder="Password" required> 
+                <br><br>
+                <button type="submit">Update</button>
+            </form>
+            <form>
+                <h4>Update Email</h4>
+                <input type="text" name="email" placeholder="Email" required> 
+                <br><br>
+                <button type="submit">Update</button>
+            </form>
         </div>
-
+    
         <script type="module">
-            import { getUsernameFromToken } from "../scripts/utils/authCheck.js";
-            import {apiRequest} from "../scripts/api.js";
+            import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
+            import {apiRequest} from "../../scripts/api.js";
 
             async function displayUserData() {
 
@@ -85,23 +97,12 @@
                 localStorage.removeItem("authToken");
                 window.location.href = "login.html";
             });
-
-            //Update financial settings
-            document.getElementById("finance").addEventListener("click", function() {
-                window.location.href = "finance.html";
-            });
-
-            //Update account settings
-            document.getElementById("updateAccount").addEventListener("click", function() {
-                window.location.href = "accountConfig.html"
-            });
-
-            //Enable/Disable Two Factor Authentication
-            document.getElementById("authentication").addEventListener("click", function() {
-                window.location.href = "authentication.html"
-            });
-
+    
+    
         </script>
 
+        
+
     </body>
+
 </html>
