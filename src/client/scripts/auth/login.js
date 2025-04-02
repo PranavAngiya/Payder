@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (result.success && result.data.token) {
             localStorage.setItem("token", result.data.token);
-            window.location.href = "userHome.html";
+            window.location.href = "/src/client/pages/portfolio/userHome.html";
         } else if (result.message === "Incorrect password" || result.message === "User not found") {
             alert("Incorrect Username or Password!");
             return;

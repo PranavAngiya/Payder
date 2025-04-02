@@ -89,18 +89,18 @@
     
             // Enter into settings
             document.getElementById("settings").addEventListener("click", function() {
-                window.location.href = "settings.html";
+                window.location.href = "/src/client/pages/settings/settings.html";
             });
     
             // Enter into settings
             document.getElementById("history").addEventListener("click", function() {
-                window.location.href = "history.html";
+                window.location.href = "../history.html";
             });
     
             // Logout function
             document.getElementById("logout").addEventListener("click", function() {
                 localStorage.removeItem("authToken");
-                window.location.href = "login.html";
+                window.location.href = "/src/client/pages/entry_pages/login.html";
             });
     
     
