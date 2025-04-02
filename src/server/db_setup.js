@@ -60,5 +60,35 @@ db.query(createUsersTable, err => {
     console.log("Users table verified");
 });
 
+const createSentimentTable = `
+    CREATE TABLE IF NOT EXISTS sentiment (
+        p_id INT AUTO_INCREMENT PRIMARY KEY,
+        tolerance INT,
+        experience INT,
+        goals INT,
+        id INT FOREIGN KEY REFERENCES users(id)
+    )`;
+db.query(createSentimentTable, err => {
+    if (err){
+        console.error('Error creating users table:', err);
+        process.exit(1);
+    };
+    console.log("Users table verified");
+});
+
+const createPortfolioTable = `
+    CREATE TABLE IF NOT EXISTS portfolio (
+        f_id INT AUTO_INCREMENT PRIMARY KEY,
+        ticker VARCHAR(5),
+        quantity INT,
+        id INT FOREIGN KEY REFERENCES users(id)
+    )`;
+db.query(createPortfolioTable, err => {
+    if (err){
+        console.error('Error creating users table:', err);
+        process.exit(1);
+    };
+    console.log("Users table verified");
+});
 
 module.exports = db;

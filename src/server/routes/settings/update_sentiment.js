@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
             const userID = user[0].id;
 
             //Update the credentials through the user_id
-            query = 'UPDATE params SET tolerance = ?, experience = ?, goals = ? ON user.id = param.f_id WHERE user.id = ?';
+            query = 'UPDATE sentiment SET tolerance = ?, experience = ?, goals = ? ON user.id = param.f_id WHERE user.id = ?';
             await db.query(query, [updated_email, userID]);
             return res.status(200).json({message: "Credentials updated."});
 
