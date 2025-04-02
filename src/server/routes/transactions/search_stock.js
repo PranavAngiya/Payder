@@ -10,6 +10,8 @@ router.post('/', async (req, res) => {
 
     const {ticker} = req.body;
 
+    console.log(ticker);
+
     try{
 
         //Check if ticker is missing field
@@ -29,7 +31,7 @@ router.post('/', async (req, res) => {
 
         //Convert to yyyy-mm-dd format
         today.toISOString().split('T')[0];
-        three_days_ago.toISOSString().split('T')[0];
+        three_days_ago.toISOString().split('T')[0];
 
         const queryOptions = {
             period1: three_days_ago,    //Start datae
