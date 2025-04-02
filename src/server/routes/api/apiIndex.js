@@ -11,6 +11,6 @@ const list_portfolio = require('./list_portfolio');
 // For example: "router.use('/signup', signupRoute);"
 router.use('/trader', traderRoute);
 router.use('/balance', balance)
-router.use('./list_portfolio', list_portfolio);
+router.use('/list_portfolio', list_portfolio);
 
 module.exports = router;
