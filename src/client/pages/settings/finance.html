@@ -54,12 +54,12 @@
     
             // Re-enter home page
             document.getElementById("homepage").addEventListener("click", function() {
-                window.location.href = "userHome.html";
+                window.location.href = "/src/client/pages/portfolio/userHome.html";
             });
 
             //Enter a stock lookup tab
             document.getElementById("lookup").addEventListener("click", function() {
-                window.location.href = "lookup.html";
+                window.location.href = "/src/client/pages/portfolio/lookup.html";
             });
     
             // Enter into settings
@@ -69,13 +69,13 @@
     
             // Enter into settings
             document.getElementById("history").addEventListener("click", function() {
-                window.location.href = "history.html";
+                window.location.href = "src/client/pages/history.html";
             });
     
             // Logout function
             document.getElementById("logout").addEventListener("click", function() {
                 localStorage.removeItem("authToken");
-                window.location.href = "login.html";
+                window.location.href = "src/client/pages/entry_pages/login.html";
             });
     
     
