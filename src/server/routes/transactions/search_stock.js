@@ -1,7 +1,9 @@
 const express = require('express');
 const db = require('../../db_setup');
-const yahooFinance = require('yahoo-finance2');
+const yahooFinance = require('yahoo-finance2').default; //default is es so needed to add default
 require ('dotenv').config();
+
+console.log(yahooFinance);
 
 const router = express.Router();
 
@@ -20,7 +22,7 @@ router.post('/', async (req, res) => {
         }
 
         //Check if bad ticker symbol is given
-        if(ticker.length > 5 || ticker.length < 2){
+        if(ticker.length > 5 || ticker.length < 1){
             return res.status(400).json({message: "Invalid ticker symbol given."});
         }
 
@@ -39,7 +41,7 @@ router.post('/', async (req, res) => {
             interval: "1d"              //Increment
         };
 
-        const historical_data = await yahooFinance.historical(symbol, queryOptions);
+        const historical_data = await yahooFinance.historical(ticker, queryOptions);
 
         if(!historical_data || historical_data.length === 0){
             return res.status(400).json({message: "No data for this ticker symbol."});
