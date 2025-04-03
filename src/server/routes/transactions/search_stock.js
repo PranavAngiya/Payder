@@ -27,21 +27,21 @@ router.post('/', async (req, res) => {
         }
 
         //Get current data
-        var today = new Date()
-        var three_days_ago = new Date()
-        three_days_ago.setDate(three_days_ago.getDate() - 7);
+        let today = new Date()
+        let seven_days_ago = new Date()
+        seven_days_ago.setDate(seven_days_ago.getDate() - 7);
 
         //Convert to yyyy-mm-dd format
-        today.toISOString().split('T')[0];
-        three_days_ago.toISOString().split('T')[0];
+        today = today.toISOString().split('T')[0];
+        seven_days_ago = seven_days_ago.toISOString().split('T')[0];
 
         const queryOptions = {
-            period1: three_days_ago,    //Start datae
+            period1: seven_days_ago,    //Start date
             period2: today,             //End date
             interval: "1d"              //Increment
         };
 
-        const historical_data = await yahooFinance.historical(ticker, queryOptions);
+        const historical_data = await yahooFinance.chart(ticker, queryOptions);
 
         if(!historical_data || historical_data.length === 0){
             return res.status(400).json({message: "No data for this ticker symbol."});
