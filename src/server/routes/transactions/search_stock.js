@@ -3,8 +3,6 @@ const db = require('../../db_setup');
 const yahooFinance = require('yahoo-finance2').default; //default is es so needed to add default
 require ('dotenv').config();
 
-console.log(yahooFinance);
-
 const router = express.Router();
 
 //Retrieve historical data
