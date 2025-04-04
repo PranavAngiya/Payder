@@ -31,10 +31,9 @@
             <h3>Account</h3>
             <button id="updateAccount">Update Account</button>
             <br>
-            <h3>Authentication</h3>
-            <button id="turnOn">Enable TFA</button>
+            <h3>Update Sentiment</h3>
+            <button id="updateSentiment">Update Sentiment</button>
             <br>
-            <button id="turnOff">Disable TFA</button>
         </div>
 
         <script type="module">
@@ -77,7 +76,7 @@
     
             // Enter into settings
             document.getElementById("history").addEventListener("click", function() {
-                window.location.href = "../history.html";
+                window.location.href = "/src/client/pages/portfolio/history.html";
             });
     
             // Logout function
@@ -96,9 +95,10 @@
                 window.location.href = "accountConfig.html"
             });
 
-            //Enable/Disable Two Factor Authentication
-            document.getElementById("authentication").addEventListener("click", function() {
-                window.location.href = "authentication.html"
+            //Update Sentiment parameters
+            document.getElementById("updateSentiment").addEventListener("click", function() {
+                console.log("Hello");
+                window.location.href = "sentiment.html"
             });
 
         </script>

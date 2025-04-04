@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title> Transaction History </title> 
-        <link rel="stylesheet" href="../styles/history.css">
+        <link rel="stylesheet" href="/src/client/styles/history.css">
     </head>
 
     <body>
@@ -29,8 +29,8 @@
         </div>
     
         <script type="module">
-            import { getUsernameFromToken } from "../scripts/utils/authCheck.js";
-            import {apiRequest} from "../scripts/api.js";
+            import { getUsernameFromToken } from "/src/client/scripts/utils/authCheck.js";
+            import {apiRequest} from "/src/client/scripts/api.js";
 
             async function displayUserData() {
 
@@ -53,17 +53,17 @@
     
             // Re-enter home page
             document.getElementById("homepage").addEventListener("click", function() {
-                window.location.href = "userHome.html";
+                window.location.href = "/src/client/pages/portfolio/userHome.html";
             });
 
             //Enter a stock lookup tab
             document.getElementById("lookup").addEventListener("click", function() {
-                window.location.href = "lookup.html";
+                window.location.href = "/src/client/pages/portfolio/lookup.html";
             });
     
             // Enter into settings
             document.getElementById("settings").addEventListener("click", function() {
-                window.location.href = "settings.html";
+                window.location.href = "/src/client/pages/settings/settings.html";
             });
     
             // Enter into settings
@@ -74,7 +74,7 @@
             // Logout function
             document.getElementById("logout").addEventListener("click", function() {
                 localStorage.removeItem("authToken");
-                window.location.href = "login.html";
+                window.location.href = "/src/client/pages/entry_pages/login.html";
             });
     
     

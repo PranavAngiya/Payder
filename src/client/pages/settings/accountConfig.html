@@ -29,22 +29,25 @@
         </div>
 
         <div class="container">
-            <form>
+            <form action="http://localhost:8081/settings/update_username" method="post">
                 <h4>Update Username</h4>
-                <input type="text" name="name" placeholder="Username" required>
+                <input type="text" name="updated_username" placeholder="Username" required>
                 <br><br>
+                <input type="hidden" name="username" id="hiddenUsername1" value="">
                 <button type="submit">Update</button>
             </form>
-            <form>
+            <form action="http://localhost:8081/settings/update_password" method="post">
                 <h4>Update Password</h4>
-                <input type="text" name="password" placeholder="Password" required> 
+                <input type="text" name="updated_password" placeholder="Password" required> 
                 <br><br>
+                <input type="hidden" name="username" id="hiddenUsername1" value="">
                 <button type="submit">Update</button>
             </form>
-            <form>
+            <form action="http://localhost:8081/settings/update_email" method="post">
                 <h4>Update Email</h4>
-                <input type="text" name="email" placeholder="Email" required> 
+                <input type="text" name="updated_email" placeholder="Email" required> 
                 <br><br>
+                <input type="hidden" name="username" id="hiddenUsername3" value="">
                 <button type="submit">Update</button>
             </form>
         </div>
@@ -58,6 +61,9 @@
                 const username = getUsernameFromToken();
                 if (username) {
                     document.getElementById("username").textContent = username;
+                    document.getElementById("hiddenUsername1").value = username;
+                    document.getElementById("hiddenUsername2").value = username;
+                    document.getElementById("hiddenUsername3").value = username;
                 }
 
                 const response = await apiRequest("/api/balance", "POST", { username });
@@ -89,7 +95,7 @@
     
             // Enter into settings
             document.getElementById("history").addEventListener("click", function() {
-                window.location.href = "src/client/pages/history.html";
+                window.location.href = "src/client/pages/portfolio/history.html";
             });
     
             // Logout function

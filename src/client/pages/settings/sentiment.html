@@ -29,35 +29,50 @@
         </div>
 
         <div class="container">
-            <form>
-                <h4>Update Username</h4>
-                <input type="text" name="name" placeholder="Username" required>
-                <br><br>
-                <button type="submit">Update</button>
+
+            <h3>User Experience</h3>
+            <form action="http://localhost:8081/settings/update_sentiment" method="post">
+                <input type="radio" id="experience_low" name="updated_experience" value="exp_low">
+                <label for="experience_low">Low</label><br>
+                <input type="radio" id="experience_mid" name="updated_experience" value="exp_mid">
+                <label for="experience_mid">Itermediate</label><br>
+                <input type="radio" id="experience_high" name="updated_experience" value="exp_high">
+                <label for="experience_high">High</label>
+            
+            <h3>Risk Tolerance</h3>
+            
+                <input type="radio" id="tolerance_low" name="updated_risk_tolerance" value="tol_low">
+                <label for="html">Low</label><br>
+                <input type="radio" id="tolerance_mid" name="updated_risk_tolerance" value="tol_mid">
+                <label for="tolerance_mid">Itermediate</label><br>
+                <input type="radio" id="tolerance_high" name="updated_risk_tolerance" value="tol_high">
+                <label for="tolerance_high">High</label>
+            
+            <h3>Investment Goals</h3>
+
+                <input type="radio" id="short_term" name="updated_goals" value="short">
+                <label for="short_term">Short Term Gain</label><br>
+                <input type="radio" id="mid_term" name="updated_goals" value="mid">
+                <label for="mid_term">Middle Term Gain</label><br>
+                <input type="radio" id="long_term" name="updated_goals" value="long">
+                <label for="long_term">Long Term Gain</label>
+                <input type="hidden" name="username" id="hiddenUsernameGoal" value="">
+                <input type="submit" value="Submit">
             </form>
-            <form>
-                <h4>Update Password</h4>
-                <input type="text" name="password" placeholder="Password" required> 
-                <br><br>
-                <button type="submit">Update</button>
-            </form>
-            <form>
-                <h4>Update Email</h4>
-                <input type="text" name="email" placeholder="Email" required> 
-                <br><br>
-                <button type="submit">Update</button>
-            </form>
+
         </div>
     
         <script type="module">
             import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
             import {apiRequest} from "../../scripts/api.js";
+            import {sentiment} from "../../scripts/update_sentiment.js"
 
             async function displayUserData() {
 
                 const username = getUsernameFromToken();
                 if (username) {
                     document.getElementById("username").textContent = username;
+                    document.getElementById("hiddenUsernameGoal").value = username;
                 }
 
                 const response = await apiRequest("/api/balance", "POST", { username });
@@ -89,7 +104,7 @@
     
             // Enter into settings
             document.getElementById("history").addEventListener("click", function() {
-                window.location.href = "/src/client/pages/history.html";
+                window.location.href = "/src/client/pages/portfolio/history.html";
             });
     
             // Logout function
