@@ -23,9 +23,46 @@ router.post('/', async (req, res) => {
 
             const userID = user[0].id;
 
+            let experience = 0;
+            let tolerance = 0;
+            let goals = 0;
+
+            //Associat experience field with int val
+            if(updated_experience === "exp_low"){
+                experience = 0;
+            }else if(updated_experience === "exp_mid"){
+                experience = 1;
+            }else if(updated_experience === "exp_high"){
+                experience = 2;
+            }else{
+                experience = 0;
+            }
+
+            //Associat tolerance field with int val
+            if(updated_risk_tolerance === "exp_low"){
+                tolerance = 0;
+            }else if(updated_risk_tolerance === "exp_mid"){
+                tolerance = 1;
+            }else if(updated_risk_tolerance === "exp_high"){
+                tolerance = 2;
+            }else{
+                tolerance = 0;  
+            }
+
+            //Associat goals field with int val
+            if(updated_goals === "exp_low"){
+                goals = 0;
+            }else if(updated_goals === "exp_mid"){
+                goals = 1;
+            }else if(updated_goals === "exp_high"){
+                goals = 2;
+            }else{
+                goals = 0;   
+            }
+
             //Update the credentials through the user_id
-            query = 'UPDATE sentiment SET tolerance = ?, experience = ?, goals = ? ON user.id = param.f_id WHERE user.id = ?';
-            await db.query(query, [updated_email, userID]);
+            query = 'UPDATE sentiment SET tolerance = ?, experience = ?, goals = ? WHERE user_id = ?';
+            await db.query(query, [tolerance, experience, goals, userID]);
             return res.status(200).json({message: "Credentials updated."});
 
         }

@@ -8,6 +8,9 @@ router.post('/', async (req, res) => {
 
     const {username, updated_username} = req.body;
 
+    console.log(`username: ${username}`);
+    console.log(`updated_username: ${updated_username}`);
+
     try{
         //Check if username or password fields are 
         if(!username || !updated_username){
