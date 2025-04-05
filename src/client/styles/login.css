@@ -12,6 +12,17 @@ html{
     justify-content: center;
 }
 
+.horizontal_radio {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+input[type="radio"]{
+    width:auto;
+    margin: 15px;
+}
+
 .container {
     background-color: rgb(157, 169, 180);
     display: flex;
@@ -59,4 +70,6 @@ input {
     padding: 8px;
     width: 200px;
 }
+
+
 

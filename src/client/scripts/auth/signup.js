@@ -12,21 +12,27 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = form.password.value.trim();
         const confirmPassword = form.confirm_password.value.trim();
 
+        const experience = form.updated_experience.value.trim();
+        const tolerance = form.updated_risk_tolerance.value.trim();
+        const goals = form.updated_goals.value.trim();
+
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
 
         const userData = { full_name: fullName, email, username, password };
+        const result_1 = await apiRequest("/auth/signup", "POST", userData);
 
-        const result = await apiRequest("/auth/signup", "POST", userData);
+        const experience_data = { username: username, updated_experience: experience, updated_risk_tolerance: tolerance, updated_goals: goals };
+        const result_2 = await apiRequest("/auth/set_sentiment", "POST", experience_data);
 
-        if (result.success) {
+        if (result_1.success && result_2.success) {
             alert("Account created successfully! Redirecting to login...");
             window.location.href = "login.html";
         } else {
             // Instead of redirecting, show a message
-            alert(`Signup failed: ${result.message}`);
+            alert(`Signup failed => msg_1: ${result_1.message} => msg_2 ${result_2.message}`);
         }
     });
 });
