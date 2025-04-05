@@ -1,8 +1,10 @@
 const express = require('express');
+
 const db = require('../../db_setup');
 require ('dotenv').config();
 
 const router = express.Router();
+
 
 router.post('/', async (req, res) => {
 
@@ -17,6 +19,7 @@ router.post('/', async (req, res) => {
             return res.status(400).json({message: "Missing field(s) present."});
         }else{
 
+            
             //All fields are properly filled
             //Retrieve user id and current account_balance
             let query = 'SELECT * FROM users WHERE username = ?';
@@ -26,9 +29,11 @@ router.post('/', async (req, res) => {
             }
 
             const userID = user[0].id;
-            const balance = user[0].account_balance;
+            const balance = parseFloat(user[0].account_balance);
 
             float_check = parseFloat(dollar_bills);
+
+            console.log(`float_check: ${float_check}`)
 
             if(isNaN(float_check)){
                 //Data was not in float format
@@ -42,6 +47,9 @@ router.post('/', async (req, res) => {
                 
                 let more_monay = 0;
                 more_monay = balance + float_check;
+
+                console.log(more_monay);
+
                 query = 'UPDATE users SET account_balance = ? WHERE id = ?';
                 await db.query(query, [more_monay, userID])
                 return res.status(200).json({message: "Account balance successfully updated."});
