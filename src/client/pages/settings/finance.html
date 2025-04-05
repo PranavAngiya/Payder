@@ -27,7 +27,33 @@
             </div>
             
         </div>
-    
+
+        <br><br>
+        <div class="container">
+            <h3>Add to Account Balance</h3>
+            <form>
+                <h4>Name on Credit Card Number</h4>
+                <input type="text" name="name" placeholder="User's Name" required> 
+                <br>
+                <h4>Credit Card Number</h4>
+                <input type="password" name="creditCard" placeholder="Please input your credit card number." required>
+                <br>
+                <h4>CVV</h4>
+                <input type="password" name="cvv" placeholder="Please input CVV." required>
+                <br>
+                <h4>Card Expiration Month</h4>
+                <input type="text" name="expiration_month" placeholder="Expiration Month" required>
+                <br>
+                <h4>Card Expiration Year</h4>
+                <input type="text" name="expiration_year" placeholder="Expiration Year" required>
+                <br><br>
+                <h4>How much would you like to add?</h4>
+                <input type="text" name="dollar_bills" placeholder="Addition Amount" required> 
+                <br><br>
+                <button type="submit">Add to Balance</button>
+            </form>  
+        </div>
+        
         <script type="module">
 
             import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
@@ -47,6 +73,25 @@
                 } else {
                     document.getElementById("balance").textContent = "Error";
                 }
+
+                const form = document.querySelector("form");
+
+                form.addEventListener("submit", async function (event) {
+                    event.preventDefault();
+
+                    const dollar_bills = form.dollar_bills.value.trim();
+
+                    const userData = { username: username, dollar_bills: dollar_bills };
+                    const result_1 = await apiRequest("/setting/update_balance", "POST", userData);
+
+                    if (result_1.success) {
+                        alert("Account balance updated successfully...");
+                    } else {
+                        // Instead of redirecting, show a message
+                        alert(`Update balance failed: ${result_1.message}`);
+                    }
+                });
+
             }
 
             // Display the username and balance
@@ -80,32 +125,6 @@
     
     
         </script>
-
-        <br><br>
-        <div class="container">
-            <h3>Add to Account Balance</h3>
-            <form action="http://localhost:8081/settings/update_balance" method="post">
-                <h4>Name on Credit Card Number</h4>
-                <input type="text" name="name" placeholder="User's Name" required> 
-                <br>
-                <h4>Credit Card Number</h4>
-                <input type="password" name="creditCard" placeholder="Please input your credit card number." required>
-                <br>
-                <h4>CVV</h4>
-                <input type="password" name="cvv" placeholder="Please input CVV." required>
-                <br>
-                <h4>Card Expiration Month</h4>
-                <input type="text" name="expiration_month" placeholder="Expiration Month" required>
-                <br>
-                <h4>Card Expiration Year</h4>
-                <input type="text" name="expiration_year" placeholder="Expiration Year" required>
-                <br><br>
-                <h4>How much would you like to add?</h4>
-                <input type="text" name="dollar_bills" placeholder="Addition Amount" required> 
-                <br><br>
-                <button type="submit">Add to Balance</button>
-            </form>  
-        </div>
 
     </body>
 

@@ -31,7 +31,7 @@
         <div class="container">
 
             <h3>User Experience</h3>
-            <form action="http://localhost:8081/settings/update_sentiment" method="post">
+            <form>
                 <input type="radio" id="experience_low" name="updated_experience" value="exp_low">
                 <label for="experience_low">Low</label><br>
                 <input type="radio" id="experience_mid" name="updated_experience" value="exp_mid">
@@ -42,7 +42,7 @@
             <h3>Risk Tolerance</h3>
             
                 <input type="radio" id="tolerance_low" name="updated_risk_tolerance" value="tol_low">
-                <label for="html">Low</label><br>
+                <label for="tolorance_low">Low</label><br>
                 <input type="radio" id="tolerance_mid" name="updated_risk_tolerance" value="tol_mid">
                 <label for="tolerance_mid">Itermediate</label><br>
                 <input type="radio" id="tolerance_high" name="updated_risk_tolerance" value="tol_high">
@@ -56,7 +56,6 @@
                 <label for="mid_term">Middle Term Gain</label><br>
                 <input type="radio" id="long_term" name="updated_goals" value="long">
                 <label for="long_term">Long Term Gain</label>
-                <input type="hidden" name="username" id="hiddenUsernameGoal" value="">
                 <input type="submit" value="Submit">
             </form>
 
@@ -65,14 +64,12 @@
         <script type="module">
             import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
             import {apiRequest} from "../../scripts/api.js";
-            import {sentiment} from "../../scripts/update_sentiment.js"
 
             async function displayUserData() {
 
                 const username = getUsernameFromToken();
                 if (username) {
                     document.getElementById("username").textContent = username;
-                    document.getElementById("hiddenUsernameGoal").value = username;
                 }
 
                 const response = await apiRequest("/api/balance", "POST", { username });
@@ -82,6 +79,26 @@
                 } else {
                     document.getElementById("balance").textContent = "Error";
                 }
+
+                const form = document.querySelector("form");
+
+                form.addEventListener("submit", async function (event) {
+                    event.preventDefault();
+
+                    const updated_risk_tolerance = form.updated_risk_tolerance.value.trim();
+                    const updated_experience = form.updated_experience.value.trim();
+                    const updated_goals = form.updated_goals.value.trim();
+
+                    const userData = { username: username, updated_risk_tolerance: updated_risk_tolerance, updated_experience: updated_experience, updated_goals: updated_goals };
+                    const result_1 = await apiRequest("/setting/update_sentiment", "POST", userData);
+
+                    if (result_1.success) {
+                        alert("Sentiment updated successfully...");
+                    } else {
+                        // Instead of redirecting, show a message
+                        alert(`Update balance failed: ${result_1.message}`);
+                    }
+                });
             }
 
             // Display the username and balance
