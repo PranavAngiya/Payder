@@ -7,6 +7,11 @@ html{
     background-image: linear-gradient(to right,rgb(112, 156, 157), rgba(255, 255, 255, 0.642));
 }
 
+.chart-container {
+    width: 1000px;
+    height:300px
+ }
+
 .navBar {
     background-color: rgb(157, 169, 180);
     height: 70px;

@@ -6,6 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title> Stock </title> 
         <link rel="stylesheet" href="../../styles/lookup.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     </head>
 
     <body>
@@ -32,79 +35,163 @@
             </div>
             
         </div>
-
-        <div class="container">
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h3>Stock Data for Company: </h3>
+        <h3 id = "company"> NA </h3>
+        <div class="chart-container">
+            <canvas id="candlestickChart"></canvas>
         </div>
-    
+
+        <button type="submit" id="buy_manual">Buy Share Using Manual Method</button>
+        <button type="submit" id="buy_automatic">Buy Share Using Current Balance</button>
+        <button type="submit" id="sell">Sell Shares</button>
+
         <script type="module">
             import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
-            import {apiRequest} from "../../scripts/api.js";
+            import { apiRequest } from "../../scripts/api.js";
 
+            document.getElementById("buy_manual").addEventListener("click", display_buy_manual_screen);
+            document.getElementById("buy_automatic").addEventListener("click", display_buy_automatic_screen);
+            document.getElementById("sell").addEventListener("click", display_sell_screen);
+
+            let candlestickChart; // Declare globally
+
+            let flag = 0;
+
+            async function display_buy_automatic_screen(){
+
+                if (flag === 0 || flag === 1){
+
+
+                }
+                    
+            }
+
+            async function display_buy_manual_screen(){
+
+                if(flag === 1 || flag === 2){
+
+                }
+
+            }
+
+            async function display_sell_screen(){
+                if(flag === 0 || flag === 3){
+
+                }
+            }
+        
             async function displayUserData() {
-
                 const username = getUsernameFromToken();
                 if (username) {
                     document.getElementById("username").textContent = username;
                 }
-
+        
                 const response = await apiRequest("/api/balance", "POST", { username });
-
-                if (response.data.balance != null) { 
+        
+                if (response?.data?.balance != null) {
                     document.getElementById("balance").textContent = response.data.balance;
                 } else {
                     document.getElementById("balance").textContent = "Error";
                 }
             }
-
-            // Display the username and balance
-            document.addEventListener("DOMContentLoaded", displayUserData);
-
+        
             async function searching() {
-
                 const stockSymbol = document.getElementById("searchBar").value.trim().toUpperCase();
+                console.log(`Searching for: ${stockSymbol}`);
+        
+                try {
+                    const result = await apiRequest("/transaction/search", "POST", { ticker: stockSymbol });
+                    console.log("API result:", result);
 
-                if (stockSymbol) { 
-                    // Make the container visible by adding the class
-                    document.querySelector(".container").classList.add("visible");
-
-                } else {
-                    // Handle empty search (optional)
-                    console.log("Please enter a stock symbol");
+                    document.getElementById("company").innerText = result.data.meta.symbol;
+        
+                    if (result.success && result.data?.quotes) {
+                        const quotes = result.data.quotes;
+        
+                        const formattedData = quotes.map(quote => ({
+                            x: new Date(quote.date),
+                            o: quote.open,
+                            h: quote.high,
+                            l: quote.low,
+                            c: quote.close
+                        }));
+        
+                        updateChart(formattedData);
+                    } else {
+                        alert(`Update failed: ${result?.message || 'Invalid ticker or no data found.'}`);
+                    }
+                } catch (error) {
+                    console.error("Error during API request:", error);
+                    alert("An unexpected error occurred during the update.");
                 }
-
             }
-
-            // Display the username and balance
-            document.getElementById("searchButton").addEventListener('click', searching)
-    
-            // Re-enter home page
-            document.getElementById("homepage").addEventListener("click", function() {
-                window.location.href = "userHome.html";
+        
+            function updateChart(newData) {
+                if (!candlestickChart) {
+                    const ctx = document.getElementById('candlestickChart').getContext('2d');
+                    candlestickChart = new Chart(ctx, {
+                        type: 'candlestick',
+                        data: {
+                            datasets: [{
+                                label: 'Stock Price',
+                                data: newData,
+                                categoryPercentage: 0.3,
+                                barPercentage: 0.2
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    display: true
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    type: 'time',
+                                    time: {
+                                        unit: 'day'
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: false
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    candlestickChart.data.datasets[0].data = newData;
+                    candlestickChart.update();
+                }
+            }
+        
+            document.addEventListener("DOMContentLoaded", () => {
+                displayUserData();
+        
+                // Initialize chart with placeholder data
+                const initialData = [
+                    { x: new Date('2024-04-01'), o: 100, h: 110, l: 90, c: 105 },
+                    { x: new Date('2024-04-02'), o: 105, h: 115, l: 95, c: 100 },
+                    { x: new Date('2024-04-03'), o: 100, h: 120, l: 85, c: 110 },
+                    { x: new Date('2024-04-04'), o: 110, h: 130, l: 105, c: 125 }
+                ];
+                updateChart(initialData);
+        
+                // Button listeners
+                document.getElementById("searchButton").addEventListener('click', searching);
+                document.getElementById("homepage").addEventListener("click", () => window.location.href = "userHome.html");
+                document.getElementById("settings").addEventListener("click", () => window.location.href = "/src/client/pages/settings/settings.html");
+                document.getElementById("history").addEventListener("click", () => window.location.href = "history.html");
+                document.getElementById("logout").addEventListener("click", () => {
+                    localStorage.removeItem("authToken");
+                    window.location.href = "/src/client/pages/entry_pages/login.html";
+                });
             });
-    
-            // Enter into settings
-            document.getElementById("settings").addEventListener("click", function() {
-                window.location.href = "/src/client/pages/settings/settings.html";
-            });
-    
-            // Enter into settings
-            document.getElementById("history").addEventListener("click", function() {
-                window.location.href = "history.html";
-            });
-    
-            // Logout function
-            document.getElementById("logout").addEventListener("click", function() {
-                localStorage.removeItem("authToken");
-                window.location.href = "/src/client/pages/entry_pages/login.html";
-            });
-    
-    
         </script>
+        
 
     </body>
 
