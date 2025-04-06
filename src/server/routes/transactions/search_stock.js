@@ -9,7 +9,6 @@ const router = express.Router();
 router.post('/', async (req, res) => {
 
     const {ticker} = req.body;
-
     console.log(ticker);
 
     try{
