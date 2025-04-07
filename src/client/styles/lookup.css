@@ -8,9 +8,23 @@ html{
 }
 
 .chart-container {
-    width: 1000px;
+    width: 800px;
     height:300px
  }
+
+ #switchers{
+    margin: 10%;
+ }
+
+#content-wrapper {
+    display: flex;
+    width: 100%;
+    margin-top: 100px;
+}
+
+#left_side, #right_side{
+    flex: 1;
+}
 
 .navBar {
     background-color: rgb(157, 169, 180);
@@ -55,6 +69,14 @@ html{
     align-items: center; 
     gap: 15px; 
     margin-left:auto;
+}
+
+.content-div {
+    display: none;
+}
+
+.content-div.active {
+    display: block;
 }
 
 .search_bar input[type="text"] {

@@ -49,3 +49,83 @@ button:hover {
     padding: 10px;
     cursor: pointer;
 }
+
+#listing button {
+    border-radius: 4px;
+    background-color: cadetblue;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  #listing button:hover {
+    background-color: rgb(112, 156, 157);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  #listing span {
+    font-weight: bold;
+    margin-left: 5px;
+  }
+  
+  /* Portfolio Section */
+  #portfolio-section {
+    padding: 120px 30px 40px;
+    max-width: 1000px;
+    margin: auto;
+    text-align: left;
+  }
+  
+  #portfolio-section h2 {
+    color: rgb(33, 56, 59);
+    margin-bottom: 20px;
+  }
+  
+  #portfolio-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #portfolio-list li {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-left: 6px solid cadetblue;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    font-size: 16px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  #pagination-controls {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  #pagination-controls button {
+    background-color: cadetblue;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #pagination-controls button:disabled {
+    background-color: lightgray;
+    cursor: not-allowed;
+  }
+  
+  #pagination-controls button:hover:not(:disabled) {
+    background-color: rgb(112, 156, 157);
+  }
+  
+  #page-indicator {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(33, 56, 59);
+  }
