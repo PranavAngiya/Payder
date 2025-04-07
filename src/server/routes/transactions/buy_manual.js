@@ -4,89 +4,76 @@ require ('dotenv').config();
 
 const router = express.Router();
 
-function isInt(value) {
-    return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
-}
-
 router.post('/', async (req, res) => {
 
-    const {username, ticker, quantity, name, card_num, cvv, exp_month, exp_year} = req.body;
+    const {username, ticker, quantity, curr_price} = req.body;
 
-    //Get current month and year
-    let curr_time = new Date();
-    let curr_month = curr_time.getMonth() + 1;
-    let curr_year = curr_time.getFullYear();
+    console.log(`username: ${username}`);
+    console.log(`ticker: ${ticker}`);
+    console.log(`quantity: ${quantity}`);
+    console.log(`curr_price: ${curr_price}`);
 
     try{
         //Check if fields are empty
-        if(!username || !ticker || !quantity || !name || !card_num || !cvv || !exp_month || !exp_year){
+        if(!username || !ticker || !quantity || !curr_price){
             return res.status(400).json({message: "Missing field(s) present."});
         }else{
 
+            //All fields are properly filled
+            //Retrieve user id and current account_balance
             let query = 'SELECT * FROM users WHERE username = ?';
             const user = await db.query(query, [username]);
             if(user.length === 0){
                 return res.status(400).json({message: "There is no user with the provided username."});
             }
 
-            const userID = user.id;
+            const userID = user[0].id;
+            let balance = user[0].account_balance; // Use let as we might update it
+
+            console.log(`userID: ${userID}`);
+            console.log(`balance: ${balance}`);
 
             //Check whether the quantity of data is not unreasonable
             if (quantity <= 0){
                 return res.status(400).json({message: "Invalid quantity given."});
             }
 
-            //Validate whether the month given by the user is valid integer.
-            if(!isInt(exp_month)){
-                return res.status(400).json({message: "Month was not an integer value."})
-            }
-            //Check whether month is one of the 12 months of the year
-            let flag = 0;
-            for(let i = 1; i < 13; i++){
-                if(exp_month === i){
-                    flag = 1
-                    break;
-                }
-            }
-            if (flag !== 1){
-                return res.status(400).json({messsage: "Month input does not correspond to possible months on record."});
+            //Check whether the current price per share is reasonable
+            if(curr_price <= 0){
+                return res.status(400).json({message: "Invalid current share price."});
             }
 
-            //Validate whether year is an integer value
-            if (!isInt(exp_year)){
-                return res.status(400).json({message: "Year was not an integer value."});
-            }
+            // Calculate the total cost of the purchase
+            const totalCost = quantity * curr_price;
 
-            //Check whether expiration has been surpased
-            if(exp_year < curr_year){
-                return res.status(400).json({message: "Expiration date has been surpased for your card."});
-            }else if(exp_year === curr_year){
-                if(exp_month <= curr_month){
-                    return res.status(400).json({message: "Expiration date has been surpased for your card."})
-                }
+            // Check if the user has sufficient balance
+            if (balance < totalCost) {
+                return res.status(400).json({ message: "Insufficient funds to complete the purchase." });
             }
 
             //Create database query to check whether user already owns stock with ticker symbol
-            // (userID, ticker)
-            query = 'SELECT * FROM portfolio LEFT JOIN users ON users.id = portfolio.f_id WHERE users.id = ?';
+            query = 'SELECT * FROM portfolio WHERE user_id = ?';
             const stocks = await db.query(query, [userID]);
 
-            if(stocks.length === 20){
-                res.status(400).json({message: "You already have a full portfolio."});
-            }else if(stocks.length === 0){
+            if(stocks.length === 0){
 
-                query = 'INSERT INTO portfolio (f_id, ticker, quantity) VALUES (?,?,?)';
-                await db.query(query, [userID, ticker, quantity]);
+                //There are currently no stocks in your portfolio
+                query = 'INSERT INTO portfolio (ticker, quantity, user_id) VALUES (?,?,?)';
+                await db.query(query, [ticker, quantity, userID]);
+
+                // Update user's account balance
+                balance -= totalCost;
+                query = 'UPDATE users SET account_balance = ? WHERE id = ?';
+                await db.query(query, [balance, userID]);
+
                 return res.status(200).json({message: "Transaction completed."});
-                
-            }else{ 
-                
+
+            }else{
+
                 //Check whether user has stock in question in their portfolio
-                flag = 0;
                 let stock_iter = Infinity;
-                let num_stocks = stocks.length;
-                for(i = 0; i < num_stocks; i++){
-                    if (num_stocks[i].ticker === ticker){
+                for(let i = 0; i < stocks.length; i++){
+                    if (stocks[i].ticker === ticker){
                         stock_iter = i;
                         break;
                     }
@@ -94,19 +81,37 @@ router.post('/', async (req, res) => {
                 //User does not own the stock in question
                 if (stock_iter === Infinity){
 
-                    query = 'INSERT INTO portfolio (f_id, ticker, quantity) VALUES (?,?,?)';
-                    await db.query(query, [userID, ticker, quantity]);
+                    //You cannot have more than 20 separate companies stocks in your portfolio
+                    if (stocks.length === 20){
+                        return res.status(400).json({message: "You already have a full portfolio."});
+                    }
+
+                    //Insert new purchased stock into your portfolio
+                    query = 'INSERT INTO portfolio (ticker, quantity, user_id) VALUES (?,?,?)';
+                    await db.query(query, [ticker, quantity, userID]);
+
+                    // Update user's account balance
+                    balance -= totalCost;
+                    query = 'UPDATE users SET account_balance = ? WHERE id = ?';
+                    await db.query(query, [balance, userID]);
+
                     return res.status(200).json({message: "Transaction completed."});
 
                 }else{
                     //Update the quantity of shares that you currently have in your posession.
-                    let shares_owned = num_stocks[stock_iter].quantity;
-                    let portfolio_id = num_stocks[stock_iter].p_id;
+                    let shares_owned = stocks[stock_iter].quantity;
+                    let portfolio_id = stocks[stock_iter].f_id;
                     shares_owned += quantity;
-                    query = 'UPDATE portfolio SET quantity = ? WHERE p_id = ?';
+                    query = 'UPDATE portfolio SET quantity = ? WHERE f_id = ?';
                     await db.query(query, [shares_owned, portfolio_id]);
+
+                    // Update user's account balance
+                    balance -= totalCost;
+                    query = 'UPDATE users SET account_balance = ? WHERE id = ?';
+                    await db.query(query, [balance, userID]);
+
                     return res.status(200).json({message: "Transaction completed."});
-                    
+
                 }
             }
         }

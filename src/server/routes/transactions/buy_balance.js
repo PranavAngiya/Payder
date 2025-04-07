@@ -8,6 +8,11 @@ router.post('/', async (req, res) => {
 
     const {username, ticker, quantity, curr_price} = req.body;
 
+    console.log(`username: ${username}`);
+    console.log(`ticker: ${ticker}`);
+    console.log(`quantity: ${quantity}`);
+    console.log(`curr_price: ${curr_price}`);
+
     try{
         //Check if fields are empty
         if(!username || !ticker || !quantity || !curr_price){
@@ -23,7 +28,10 @@ router.post('/', async (req, res) => {
             }
 
             const userID = user[0].id;
-            const balance = user[0].account_balance;
+            let balance = user[0].account_balance; // Use let as we might update it
+
+            console.log(`userID: ${userID}`);
+            console.log(`balance: ${balance}`);
 
             //Check whether the quantity of data is not unreasonable
             if (quantity <= 0){
@@ -35,25 +43,37 @@ router.post('/', async (req, res) => {
                 return res.status(400).json({message: "Invalid current share price."});
             }
 
+            // Calculate the total cost of the purchase
+            const totalCost = quantity * curr_price;
+
+            // Check if the user has sufficient balance
+            if (balance < totalCost) {
+                return res.status(400).json({ message: "Insufficient funds to complete the purchase." });
+            }
+
             //Create database query to check whether user already owns stock with ticker symbol
-            query = 'SELECT * FROM portfolio LEFT JOIN users ON users.id = portfolio.f_id WHERE users.id = ?';
+            query = 'SELECT * FROM portfolio WHERE user_id = ?';
             const stocks = await db.query(query, [userID]);
 
             if(stocks.length === 0){
 
                 //There are currently no stocks in your portfolio
-                query = 'INSERT INTO portfolio (f_id, ticker, quantity) VALUES (?,?,?)';
-                await db.query(query, [userID, ticker, quantity]);
+                query = 'INSERT INTO portfolio (ticker, quantity, user_id) VALUES (?,?,?)';
+                await db.query(query, [ticker, quantity, userID]);
+
+                // Update user's account balance
+                balance -= totalCost;
+                query = 'UPDATE users SET account_balance = ? WHERE id = ?';
+                await db.query(query, [balance, userID]);
+
                 return res.status(200).json({message: "Transaction completed."});
-                
-            }else{ 
-                
+
+            }else{
+
                 //Check whether user has stock in question in their portfolio
-                flag = 0;
                 let stock_iter = Infinity;
-                let num_stocks = stocks.length;
-                for(i = 0; i < num_stocks; i++){
-                    if (num_stocks[i].ticker === ticker){
+                for(let i = 0; i < stocks.length; i++){
+                    if (stocks[i].ticker === ticker){
                         stock_iter = i;
                         break;
                     }
@@ -63,24 +83,35 @@ router.post('/', async (req, res) => {
 
                     //You cannot have more than 20 separate companies stocks in your portfolio
                     if (stocks.length === 20){
-                        res.status(400).json({message: "You already have a full portfolio."});
+                        return res.status(400).json({message: "You already have a full portfolio."});
                     }
-                    
+
                     //Insert new purchased stock into your portfolio
-                    query = 'INSERT INTO portfolio (f_id, ticker, quantity) VALUES (?,?,?)';
-                    await db.query(query, [userID, ticker, quantity]);
-                    balance -= quantity*curr_price;
+                    query = 'INSERT INTO portfolio (ticker, quantity, user_id) VALUES (?,?,?)';
+                    await db.query(query, [ticker, quantity, userID]);
+
+                    // Update user's account balance
+                    balance -= totalCost;
+                    query = 'UPDATE users SET account_balance = ? WHERE id = ?';
+                    await db.query(query, [balance, userID]);
+
                     return res.status(200).json({message: "Transaction completed."});
 
                 }else{
                     //Update the quantity of shares that you currently have in your posession.
-                    let shares_owned = num_stocks[stock_iter].quantity;
-                    let portfolio_id = num_stocks[stock_iter].p_id;
+                    let shares_owned = stocks[stock_iter].quantity;
+                    let portfolio_id = stocks[stock_iter].f_id;
                     shares_owned += quantity;
-                    query = 'UPDATE portfolio SET quantity = ? WHERE p_id = ?';
-                    const update_result = await db.query(query, [shares_owned, portfolio_id]);
+                    query = 'UPDATE portfolio SET quantity = ? WHERE f_id = ?';
+                    await db.query(query, [shares_owned, portfolio_id]);
+
+                    // Update user's account balance
+                    balance -= totalCost;
+                    query = 'UPDATE users SET account_balance = ? WHERE id = ?';
+                    await db.query(query, [balance, userID]);
+
                     return res.status(200).json({message: "Transaction completed."});
-                    
+
                 }
             }
         }

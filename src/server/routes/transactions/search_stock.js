@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
         //Get current data
         let today = new Date()
         let seven_days_ago = new Date()
-        seven_days_ago.setDate(seven_days_ago.getDate() - 7);
+        seven_days_ago.setDate(seven_days_ago.getDate() - 30);
 
         //Convert to yyyy-mm-dd format
         today = today.toISOString().split('T')[0];
