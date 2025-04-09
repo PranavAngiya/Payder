@@ -28,4 +28,4 @@ function getUsernameFromToken() {
 // Automatically check authentication on page load
 document.addEventListener("DOMContentLoaded", checkAuth);
 
-export { checkAuth, getUsernameFromToken };
+export { checkAuth, getUsernameFromToken};

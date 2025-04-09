@@ -1,0 +1,122 @@
+html{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right,rgb(112, 156, 157), rgba(255, 255, 255, 0.642));
+}
+
+.chart-container {
+    width: 800px;
+    height:300px
+ }
+
+ #switchers{
+    margin: 10%;
+ }
+
+#content-wrapper {
+    display: flex;
+    width: 100%;
+    margin-top: 100px;
+}
+
+#left_side, #right_side{
+    flex: 1;
+}
+
+.navBar {
+    background-color: rgb(157, 169, 180);
+    height: 70px;
+    color: white;
+    padding: 10px 20px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100vw; 
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0; 
+    box-sizing: border-box; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.container.visible {
+    opacity: 1;
+}
+
+.container {
+    background-color: rgb(201, 208, 213);
+    display: flex;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 40%;
+    min-width: 350px;
+}
+
+#listing {
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
+    margin-left:auto;
+}
+
+.content-div {
+    display: none;
+}
+
+.content-div.active {
+    display: block;
+}
+
+.search_bar input[type="text"] {
+    width: 300px;  
+    height: 40px;  
+    font-size: 16px; 
+}
+
+.search_bar button{
+    border-radius: 4px;
+    background-color:cadetblue;
+    color:white;
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search_bar button:hover {
+    border-radius: 4px;
+    background-color:rgb(112, 156, 157);
+    color:rgba(255, 255, 255, 0.642);
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button {
+    border-radius: 4px;
+    background-color:cadetblue;
+    color:white;
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
+}
+    
+button:hover {
+    border-radius: 4px;
+    background-color:rgb(112, 156, 157);
+    color:rgba(255, 255, 255, 0.642);
+    text-decoration: none;
+    padding: 10px;
+    cursor: pointer;
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Transaction History </title> 
+        <link rel="stylesheet" href="../../styles/accountConfig.css">
+    </head>
+
+    <body>
+
+        <div class="navBar">
+
+            <div id="listing">
+                <ul>
+                    <button id="homepage">Portfolio</button>
+                    <button id="lookup">Stock Lookup</button>
+                    <button id="settings">Account-Settings</button>
+                    <button id="history">History</button>
+                    <button id="logout">Sign-Out</button>
+                    Hello: 
+                    <span id="username">Unauthorized User</span>
+                    Current Balance: 
+                    <span id="balance">Error</span>
+                </ul>
+            </div>
+            
+        </div>
+
+        <div class="container">
+
+            <h3>User Experience</h3>
+            <form>
+                <input type="radio" id="experience_low" name="updated_experience" value="exp_low">
+                <label for="experience_low">Low</label><br>
+                <input type="radio" id="experience_mid" name="updated_experience" value="exp_mid">
+                <label for="experience_mid">Itermediate</label><br>
+                <input type="radio" id="experience_high" name="updated_experience" value="exp_high">
+                <label for="experience_high">High</label>
+            
+            <h3>Risk Tolerance</h3>
+            
+                <input type="radio" id="tolerance_low" name="updated_risk_tolerance" value="tol_low">
+                <label for="tolorance_low">Low</label><br>
+                <input type="radio" id="tolerance_mid" name="updated_risk_tolerance" value="tol_mid">
+                <label for="tolerance_mid">Itermediate</label><br>
+                <input type="radio" id="tolerance_high" name="updated_risk_tolerance" value="tol_high">
+                <label for="tolerance_high">High</label>
+            
+            <h3>Investment Goals</h3>
+
+                <input type="radio" id="short_term" name="updated_goals" value="short">
+                <label for="short_term">Short Term Gain</label><br>
+                <input type="radio" id="mid_term" name="updated_goals" value="mid">
+                <label for="mid_term">Middle Term Gain</label><br>
+                <input type="radio" id="long_term" name="updated_goals" value="long">
+                <label for="long_term">Long Term Gain</label>
+                <input type="submit" value="Submit">
+            </form>
+
+        </div>
+    
+        <script type="module">
+            import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
+            import {apiRequest} from "../../scripts/api.js";
+
+            async function displayUserData() {
+
+                const username = getUsernameFromToken();
+                if (username) {
+                    document.getElementById("username").textContent = username;
+                }
+
+                const response = await apiRequest("/api/balance", "POST", { username });
+
+                if (response.data.balance != null) { 
+                    document.getElementById("balance").textContent = response.data.balance;
+                } else {
+                    document.getElementById("balance").textContent = "Error";
+                }
+
+                const form = document.querySelector("form");
+
+                form.addEventListener("submit", async function (event) {
+                    event.preventDefault();
+
+                    const updated_risk_tolerance = form.updated_risk_tolerance.value.trim();
+                    const updated_experience = form.updated_experience.value.trim();
+                    const updated_goals = form.updated_goals.value.trim();
+
+                    const userData = { username: username, updated_risk_tolerance: updated_risk_tolerance, updated_experience: updated_experience, updated_goals: updated_goals };
+                    const result_1 = await apiRequest("/setting/update_sentiment", "POST", userData);
+
+                    if (result_1.success) {
+                        alert("Sentiment updated successfully...");
+                    } else {
+                        // Instead of redirecting, show a message
+                        alert(`Update balance failed: ${result_1.message}`);
+                    }
+                });
+            }
+
+            // Display the username and balance
+            document.addEventListener("DOMContentLoaded", displayUserData);
+    
+            // Re-enter home page
+            document.getElementById("homepage").addEventListener("click", function() {
+                window.location.href = "/src/client/pages/portfolio/userHome.html";
+            });
+
+            //Enter a stock lookup tab
+            document.getElementById("lookup").addEventListener("click", function() {
+                window.location.href = "/src/client/pages/portfolio/lookup.html";
+            });
+    
+            // Enter into settings
+            document.getElementById("settings").addEventListener("click", function() {
+                window.location.href = "settings.html";
+            });
+    
+            // Enter into settings
+            document.getElementById("history").addEventListener("click", function() {
+                window.location.href = "/src/client/pages/portfolio/history.html";
+            });
+    
+            // Logout function
+            document.getElementById("logout").addEventListener("click", function() {
+                localStorage.removeItem("authToken");
+                window.location.href = "/src/client/pages/entry_pages/login.html";
+            });
+    
+    
+        </script>
+
+    </body>
+
+</html>
