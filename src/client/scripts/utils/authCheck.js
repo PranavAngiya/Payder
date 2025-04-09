@@ -2,17 +2,17 @@
 
 // Function to check authentication status
 function checkAuth() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
 
     if (!token) {
-        window.location.href = "login.html";
+        window.location.href = "../entry_pages/login.html";
         alert("Access denied! Please log in.");
     }
 }
 
 // Function to extract the username from the token (for displaying the user's name)
 function getUsernameFromToken() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     if (!token) return null;
 
     try {

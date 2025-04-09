@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const result = await apiRequest("/auth/login", "POST", userData);
 
         if (result.success && result.data.token) {
-            localStorage.setItem("token", result.data.token);
+            localStorage.setItem("authToken", result.data.token);
             window.location.href = "/src/client/pages/portfolio/userHome.html";
         } else if (result.message === "Incorrect password" || result.message === "User not found") {
             alert("Incorrect Username or Password!");
