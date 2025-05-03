@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUA Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, button, textarea {
+            display: block;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 99%;
+            height: 60px;
+            color: teal;
+            background-color: #f2f2f2;
+            padding: 4px;
+        }
+        h1 {
+            color: darkgreen;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        hr {
+            border: 1px solid rgb(107, 231, 107);
+            margin: 20px 0;
+        }
+        #log-data, #NextPrice {
+            font-size: 12px;
+            width: 100%;
+            height: auto;
+            max-height: 50vh;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-y: auto;
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+        #taskMenu {
+            width: 100%;
+            color: teal;
+            background-color: #f2f2f2;
+            padding: 4px;
+        }
+/*
+            border: 1px solid #ccc;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin: 10px 0;
+            border-collapse: collapse; /* Clean borders */
+*/
+
+        .red { color: red; }
+        .green { color: green; }
+        .blue { color: blue; }
+
+        .inline-label {
+            display: inline-block;
+            margin-right: 10px; /* Optional: Add some space between the label and input */
+        }
+        .inline-input {
+            display: inline-block;
+        }
+        .inline-buttons button {
+            display: inline-block;
+            margin-right: 20px; /* Optional: Add some space between buttons */
+        }
+    </style>
+</head>
+<body>
+    <h1>Money Talk with Al</h1>
+    <div id="log"></div>
+        <pre id="log-data"></pre>
+    </div>
+
+    <hr>
+    
+    <form id="task-form" class="inline-buttons"> 
+        <label for="company" class="inline-label" onclick="FinUrl(event)">Get finance page of symbol/company </label>
+        <input id="company" name="company" value="TSLA" class="inline-input" onkeypress="if(event.key === 'Enter') { event.preventDefault(); FinUrl(event); }">
+        <div id="symbol" class="inline-label"></div>
+
+        <div>
+            <label for="NextPrice" class="inline-label" onclick="NextPrice(event)">Get tomorrow's price today: </label>
+            <!--
+             (<span class="red">Warning: Past performance is not indicative of future results.</span>)
+            -->
+            <div id="NextPrice"></div>
+        </div>
+
+        <br>Ask AI:<br>
+        <label for="searchKey" class="inline-label" onclick="SearchKey(event)">Filter prompt examples by keyword </label>
+        <input id="searchKey" name="searchKey" value="*" class="inline-input" onkeypress="if(event.key === 'Enter') { event.preventDefault(); SearchKey(event); }">
+
+        <select id="taskMenu" title="Select a prompts sample" onchange="updateTask()">
+            <option value="" disabled selected>Select a prompt example to compose:</option>
+        </select>
+        <textarea id="task" name="task" placeholder="Compose your propmt here."></textarea>
+
+        <button type="submit" onclick="AskBua(event)">Ask BUA</button>
+		<!--
+        <button type="submit" onclick="AskGemini(event)">Ask Gemini</button>
+		-->
+        <button type="submit" onclick="AskOpenAi(event)">Ask OpenAI</button>
+    </form>
+
+    <script>
+        let symbol = 'TSLA';
+        let url = 'https://www.marketwatch.com/investing/stock/' + symbol;
+
+        function appendLog(text) {
+            const contentDiv = document.getElementById('log-data');
+            const newHtml = document.createElement('div');
+            // Make URLs in the response clickable
+            html = text.replace(
+                    /(https?:\/\/[^\s]+)/g,
+                    '<a href="$1" target="_blank">$1</a>'
+                );
+            newHtml.innerHTML = html;
+            contentDiv.appendChild(newHtml);
+            contentDiv.scrollTop = contentDiv.scrollHeight;  // Scroll to the bottom of the log
+        };
+
+        function overWriteLog(text) {
+            const contentDiv = document.getElementById('log-data');
+            // contentDiv.innerHTML = '';
+            contentDiv.textContent = text;
+        };
+
+        async function FinUrl(event) {
+            event.preventDefault();
+
+            const company = document.getElementById('company').value;
+            console.log('FinUrl(): company name input=', company);
+            appendLog('\nSearching and fetching Google Finance page of ' + company + ' ...');
+            appendLog('&lt;Please wait for the Finance page tag. Make sure your browser does not block pop-out page.&gt;\n')
+
+            // if (company === '') {
+            if (company == '') {    // If the user input is empty, then set the default value.
+                company = 'Tesla Co.';
+                // document.getElementById('response-data').textContent = 'Error: Please enter a stock company.';
+                // return;
+            }
+            //url = 'https://www.marketwatch.com/investing/stock/' + symbol;
+
+            const payload = { company: company };
+
+            // Send the POST request
+            try {
+                const response = await fetch('http://localhost:5050/FinUrl', {
+                    // mode: 'no-cors',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)   // Convert a JavaScript object into a string, w/o any formatting. default space is 0, i.e., no line break, no indentation..
+                });
+                const data = await response.json();
+                console.log(data)
+                
+                symbol = data.symbol;
+                url = data.url;
+                appendLog('For ' + company + ', Symbol: ' + symbol + ', URL: '+ url);
+                document.getElementById('symbol').textContent = 'Stock Symbol: '+ symbol;
+                
+                window.open(url, '_blank');  // open in a new tab in the browser. Need to remove "Pop-up" Block for the Browser.         
+            } catch (error) {
+                console.error('FinUrl() Error:', error);
+                appendLog('Error: Unable to complete the get the financial page.');
+            }
+        };
+
+
+        async function NextPrice(event) {
+            event.preventDefault();
+
+            console.log('NextPrice(): symbol=', symbol);
+            appendLog('\nDownloading Yahoo Finance historical prices and predicting the next close price of ' + symbol + ' ...');
+            appendLog('&lt;Please wait.&gt;\n')
+
+            if (symbol == '') {
+                symbol = 'TSLA';
+                // document.getElementById('response-data').textContent = 'Error: Please enter a stock company.';
+                // return;
+            }
+
+            const payload = { symbol: symbol };
+
+            // Send the POST request
+            try {
+                const response = await fetch('http://localhost:5050/NextPrice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)   // Convert a JavaScript object into a string, w/o any formatting. default space is 0, i.e., no line break, no indentation..
+                });
+                const data = await response.json();
+                console.log(data)
+                
+                appendLog('Next close price of ' + symbol + ': US$ ' + data.price);
+                document.getElementById('NextPrice').textContent = data.data;
+                
+            } catch (error) {
+                console.error('NextPrice() Error:', error);
+                appendLog('Error: Unable to complete NextPrice().');
+            }
+        };
+
+
+        async function loadTaskMenu() {
+            try {
+                const response = await fetch('taskSamples.csv');
+                const csvText = await response.text();
+                const rows = csvText.split('\n').filter(row => row.trim() !== '');
+                const taskMenu = document.getElementById('taskMenu');
+
+                rows.forEach(row => {
+                    const [task0, task1, task2] = row.split('|');
+                    //console.log('row:', task0, task1, task2);
+                    if (task0) {
+                        const option = document.createElement('option');
+                        option.innerHTML = `<span class="red">${task0}</span>, &emsp; <span class="green">${task1}</span> &nbsp; <span class="blue">${task2}</span>`;
+                        option.value = `${task0}: ${task1} ${task2}`;
+                        taskMenu.appendChild(option);
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading task menu:', error);
+            }
+        }
+
+        // Load the task menu on page load
+        document.addEventListener('DOMContentLoaded', loadTaskMenu);
+
+        function updateTask() {
+            const taskMenu = document.getElementById('taskMenu');
+            const selectedTask = taskMenu.value;
+            document.getElementById('task').value = selectedTask;
+            taskMenu.selectedIndex = 0;
+            console.log('Selected task:', selectedTask);
+        }
+
+        async function SearchKey(event) {
+            event.preventDefault();
+            console.log('SearchKey() event: ', event);
+            
+            const searchKey = document.getElementById('searchKey').value;
+            const taskMenu = document.getElementById('taskMenu');
+            let csvText = '';
+
+            console.log('SearchKey(): ', searchKey);
+            appendLog('\nSearching AI prompt examples of ' + searchKey + ' ...');
+            //appendLog('&lt;Please wait for AI task prompt examples&gt;\n')
+
+            // if (company === '') {
+            if (searchKey == '') {    // If the user input is empty, then set the default value.
+                searchKey = '*';
+            }
+
+            if (searchKey == '*') {
+                await loadTaskMenu();  // Load all task samples from the CSV file.
+                appendLog('\nSearch results received and listed in the menu below. Please click and select one.\n');
+                return
+            }
+
+            appendLog('Searching for: ' + searchKey);
+            try {
+                const response = await fetch(`http://localhost:5050/SearchKey?searchKey=${encodeURIComponent(searchKey)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                csvText = await response.text();
+                console.log(csvText);
+            } catch (error) {
+                console.error('Error:', error);
+                appendLog('Error: Not search result received.');
+            }
+            if (csvText == '') {
+                appendLog('No match found.');
+                return;
+            }
+
+            try {
+                const rows = JSON.parse(csvText).matches.map(match => 
+                    `${match.Column1}|${match.Column2}|${match.Column3}`
+                );
+                const taskMenu = document.getElementById('taskMenu');
+                taskMenu.innerHTML = '<option value="" disabled selected>Select a draft example:</option>'; // Clear the taskMenu but keep the first row
+
+                rows.forEach(row => {
+                    const [task0, task1, task2] = row.split('|');
+                    //console.log('row:', task0, task1, task2);
+                    if (task0) {
+                        const option = document.createElement('option');
+                        option.innerHTML = `<span class="red">${task0}</span>, &emsp; <span class="green">${task1}</span> &nbsp; <span class="blue">${task2}</span>`;
+                        option.value = `${task0}: ${task1} ${task2}`;
+                        taskMenu.appendChild(option);
+                    }
+                });
+                appendLog('\nSearch results received and listed in the menu below. Please click and select one.\n');
+            } catch (error) {
+                console.error('Error loading task menu:', error);
+            }
+        };
+
+        async function AskBua(event) {
+            event.preventDefault();
+
+            const symbol = document.getElementById('company').value;
+            const task = document.getElementById('task').value;
+            console.log('------- AskBua() req: ',symbol,task);
+            appendLog('\nYou ask BUA: ------------------------------------------\n' +  task)
+            appendLog('&lt;Please wait for BUA response.&gt;\n')
+            
+            // if (symbol === '') {
+            if (symbol == '') {    // If the user input is empty, then set the default value.
+                symbol = 'TSLA';
+                // document.getElementById('response-data').textContent = 'Error: Please enter a stock symbol.';
+                // return;
+            }
+            //url = 'https://www.marketwatch.com/investing/stock/' + symbol;
+
+            const payload = { symbol: symbol, url:'', task: task };
+
+            // Send the POST request
+            try {
+                const response = await fetch('http://localhost:5050/AskBua', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)   // Convert a JavaScript object into a string, w/o any formatting. default space is 0, i.e., no line break, no indentation..
+                });
+
+                const result = await response.json();
+                console.log('------- AskBua() res:', result);
+                // appendLog(JSON.stringify(result, null, 2));   // add whitespace to json data to make it in a readable format.
+                appendLog('\nBUA: ------------------------------------------\n' + result.Result);
+            } catch (error) {
+                console.error('------- AskBua() Error:', error);
+                appendLog('\nError: Unable to complete the task.\n');
+            }
+        };
+
+
+        async function AskOpenAi(event) {
+            event.preventDefault();
+
+            const symbol = document.getElementById('company').value;
+            const task = document.getElementById('task').value;
+            console.log('------- AskOpenAi() req: ',symbol,task);
+            appendLog('\nYou ask OpenAI: ------------------------------------------\n' +  task + '\n')
+
+            // if (symbol === '') {
+            if (symbol == '') {    // If the user input is empty, then set the default value.
+                symbol = 'TSLA';
+                // document.getElementById('response-data').textContent = 'Error: Please enter a stock symbol.';
+                // return;
+            }
+            //url = 'https://www.marketwatch.com/investing/stock/' + symbol;
+
+            const payload = { symbol: symbol, url:'', task: task };
+
+            // Send the POST request
+            try {
+                const result = await fetch('http://localhost:5050/AskOpenAi', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)   // Convert a JavaScript object into a string, w/o any formatting. default space is 0, i.e., no line break, no indentation..
+                });
+
+                // Get and display the response
+                console.log('------- AskOpenAi() res:', result);
+                const resultText = await result.text();
+                appendLog('\nOpenAI: ------------------------------------------\n' + resultText + '\n');
+            } catch (error) {
+                console.error('------- AskOpenAi() Error:', error);
+                appendLog('\nError: Unable to complete the task.\n');
+            }
+        };
+
+
+        async function AskGemini(event) {
+            event.preventDefault();
+
+            const symbol = document.getElementById('company').value;
+            const task = document.getElementById('task').value;
+            console.log('------- AskGemini() req: ',symbol,task);
+            appendLog('\nYou ask Gemini: ------------------------------------------\n' +  task + '\n')
+
+            // if (symbol === '') {
+            if (symbol == '') {    // If the user input is empty, then set the default value.
+                symbol = 'TSLA';
+                // document.getElementById('response-data').textContent = 'Error: Please enter a stock symbol.';
+                // return;
+            }
+            const payload = { symbol: symbol, url:'', task: task };
+
+            // Send the POST request
+            try {
+                const result = await fetch('http://localhost:5050/AskGemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)   // Convert a JavaScript object into a string, w/o any formatting. default space is 0, i.e., no line break, no indentation..
+                });
+
+                console.log('------- AskGemini() res:', result);
+                //appendLog(JSON.stringify(result, null, 2));   // add whitespace to json data to make it in a readable format.
+                const resultText = await result.text();
+                appendLog('\nGemini: ------------------------------------------\n' + resultText + '\n');
+            } catch (error) {
+                console.error('------- AskGemini() Error:', error);
+                appendLog('\nError: Unable to complete the task.\n');
+            }
+        };
+    </script>
+</body>
+</html>
+
