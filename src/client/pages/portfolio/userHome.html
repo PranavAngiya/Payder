@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Homepage</title>
-  <link rel="stylesheet" href="../../styles/home.css" />
+  <link rel="stylesheet" href="../../styles/home.css"/>
 </head>
 <body>
   <script type="module" src="../../scripts/utils/authCheck.js"></script>
   <script type="module" src="../../scripts/api.js"></script>
 
-  <div class="navBar">
-    <div id="listing">
-      <ul>
-        <button id="homepage">Portfolio</button>
-        <button id="lookup">Stock Lookup</button>
-        <button id="settings">Account-Settings</button>
-        <button id="history">History</button>
-        <button id="logout">Sign-Out</button>
-        Hello:
-        <span id="username">Unauthorized User</span>
-        Current Balance:
-        <span id="balance">Error</span>
-      </ul>
+  <!-- NAV BAR -->
+  <nav class="navBar">
+    <div id="payder" class="navTitle">Payder</div>
+    <div class="search-container">
+      <input id="searchInput"
+             type="text"
+             placeholder="Enter Stock Symbol or Name"/>
+      <button id="searchBtn">Search</button>
     </div>
-  </div>
+     <a href="../settings/settings.html"><button class="navBtn">Settings</button></a>
+    <button id="logout"   class="navBtn">Sign Out</button>
+  </nav>
 
-  <div id="portfolio-section">
-    <br><br><br>
-    <h2>Your Portfolio</h2>
-    <ul id="portfolio-list"></ul>
-    <div id="pagination-controls">
-      <button id="prev-page">Previous</button>
-      <span id="page-indicator">Page 1</span>
-      <button id="next-page">Next</button>
+  <!-- MAIN CARD -->
+  <main class="inner-form">
+    <h2 id="portfolio-title">Your Portfolio</h2>
+
+    <div class="balance-container">
+      Buying Power: <span id="balance">Error</span>
     </div>
-  </div>
+
+    <ul id="portfolio-list">
+      <!-- Items injected here -->
+    </ul>
+  </main>
 
   <script type="module">
     import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
@@ -43,39 +42,36 @@
 
     let username = null;
     let portfolioData = [];
-    let currentPage = 1;
-    const itemsPerPage = 20;
 
     async function displayUserData() {
       username = getUsernameFromToken();
       if (username) {
-        document.getElementById("username").textContent = username;
+        document.getElementById("portfolio-title")
+                .textContent = `${username}'s Portfolio`;
       }
 
-      // Fetch balance separately
-      const balanceResponse = await apiRequest("/api/balance", "POST", { username });
-
-      console.log(balanceResponse.data.ticker)
-      console.log(balanceResponse.data.quantity)
-
+      // *** Buying Power ***
+      const balanceResponse = await apiRequest(
+        "/api/balance", "POST", { username }
+      );
       if (balanceResponse?.data?.balance != null) {
-        document.getElementById("balance").textContent = balanceResponse.data.balance;
+        // ← reverted to your original line:
+        document.getElementById("balance").textContent =
+          balanceResponse.data.balance;
       } else {
         document.getElementById("balance").textContent = "Error";
       }
 
-      // Fetch portfolio data using POST
-      const portfolioResponse = await apiRequest("/api/list_portfolio", "POST", { username });
-
-      console.log(portfolioResponse);
-
+      // *** Portfolio Items ***
+      const portfolioResponse = await apiRequest(
+        "/api/list_portfolio", "POST", { username }
+      );
       if (portfolioResponse?.success) {
         portfolioData = portfolioResponse.data.portfolio ?? [];
       } else {
         console.error("Failed to fetch portfolio:", portfolioResponse?.message);
         portfolioData = [];
       }
-
       displayPortfolio();
     }
 
@@ -83,71 +79,46 @@
       const list = document.getElementById("portfolio-list");
       list.innerHTML = "";
 
-      const start = (currentPage - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      const pageItems = portfolioData.slice(start, end);
-
-      if (pageItems.length === 0) {
+      if (!portfolioData.length) {
         const li = document.createElement("li");
         li.textContent = "No portfolio data found.";
         list.appendChild(li);
+        return;
       }
 
-      pageItems.forEach(item => {
+      portfolioData.forEach(item => {
         const li = document.createElement("li");
         li.textContent = `${item.ticker}: ${item.quantity} shares`;
         list.appendChild(li);
       });
-
-      const totalPages = Math.ceil(portfolioData.length / itemsPerPage) || 1;
-      document.getElementById("page-indicator").textContent = `Page ${currentPage} of ${totalPages}`;
-
-      document.getElementById("prev-page").disabled = currentPage === 1;
-      document.getElementById("next-page").disabled = currentPage === totalPages;
     }
 
-    // Pagination buttons
-    document.getElementById("prev-page").addEventListener("click", () => {
-      if (currentPage > 1) {
-        currentPage--;
-        displayPortfolio();
-      }
-    });
+    document.addEventListener("DOMContentLoaded", () => {
+      displayUserData();
 
-    document.getElementById("next-page").addEventListener("click", () => {
-      const totalPages = Math.ceil(portfolioData.length / itemsPerPage);
-      if (currentPage < totalPages) {
-        currentPage++;
-        displayPortfolio();
-      }
-    });
+      // Nav handlers
+      document.getElementById("payder")
+              .addEventListener("click", () => {
+        window.location.href = "userHome.html";
+      });
+      document.getElementById("logout")
+              .addEventListener("click", () => {
+        localStorage.removeItem("authToken");
+        window.location.href =
+          "/src/client/pages/entry_pages/login.html";
+      });
 
-    // Navigation buttons (remain the same as they handle page navigation)
-    document.getElementById("homepage").addEventListener("click", () => {
-      window.location.href = "userHome.html";
+      // Search integration
+      document.getElementById("searchBtn")
+              .addEventListener("click", () => {
+        const sym = document.getElementById("searchInput")
+                         .value.trim().toUpperCase();
+        if (sym) {
+          window.location.href =
+            `lookup.html?${encodeURIComponent(sym)}`;
+        }
+      });
     });
-
-    document.getElementById("lookup").addEventListener("click", () => {
-      window.location.href = "lookup.html";
-    });
-
-    document.getElementById("settings").addEventListener("click", () => {
-      window.location.href = "/src/client/pages/settings/settings.html";
-    });
-
-    document.getElementById("history").addEventListener("click", () => {
-      window.location.href = "history.html";
-    });
-
-    document.getElementById("logout").addEventListener("click", () => {
-      localStorage.removeItem("authToken");
-      window.location.href = "/src/client/pages/entry_pages/login.html";
-    });
-
-    document.addEventListener("DOMContentLoaded", displayUserData);
   </script>
 </body>
 </html>
-
-
-

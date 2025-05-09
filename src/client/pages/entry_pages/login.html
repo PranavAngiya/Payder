@@ -1,29 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
-    <link rel="stylesheet" href="../../styles/login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="../../styles/login.css"/>
 </head>
 <body>
-    <h1>PAYDER BROKERAGE</h1>
-    <div class="container">
-        <h3>Sign In</h3>
-        <form>
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Sign In</button>
-        </form>
-        <br>
-        <h3>Sign In</h3>
-        <button onclick="window.location.href='signup.html'">Sign Up</button>
-        <br>
-        <h3>Have you forgotten your password?</h3>
-        <button onclick="window.location.href='passwordReset.html'">Password Reset</button>
+  <div class="page">
+    <div class="background"></div>
+
+    <!-- Figma blobs/vectors -->
+    <div class="ellipse1"></div>
+    <div class="vector1"></div>
+    <div class="vector2"></div>
+    <div class="vector3"></div>
+    <div class="ellipse2"></div>
+    <div class="vector4"></div>
+    <div class="vector5"></div>
+    <div class="vector6"></div>
+
+    <div class="inner-form">
+      <h1 class="welcome">Welcome</h1>
+
+      <!-- NEW: actual form for login.js -->
+      <form>
+        <div class="input-container">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            required
+          />
+        </div>
+
+        <div class="input-container">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+          />
+          <a href="passwordReset.html" class="forgot">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn login-btn">Login</button>
+      </form>
+
+      <!-- Sign Up stays outside the form -->
+      <button
+        type="button"
+        class="btn signup-btn"
+        onclick="location.href='signup.html'"
+      >Sign Up</button>
     </div>
-    
-    <script type="module" src="../../scripts/auth/login.js"></script>
-    <script src="../../scripts/error.js"></script>
+  </div>
+
+  <script type="module" src="../../scripts/auth/login.js"></script>
+  <script src="../../scripts/error.js"></script>
 </body>
 </html>

@@ -1,0 +1,126 @@
+/* 1) reset & body */
+* {
+    box-sizing: border-box; margin: 0; padding: 0;
+  }
+  html, body {
+    width: 100%; height: 100%;
+    font-family: Inter, sans-serif;
+    background: #038A08;
+    overflow-x: hidden;
+  }
+  
+  /* 2) navBar (global) */
+  .navBar {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 60px;
+    background: #4CAF50;
+    border-bottom: 2px solid #F09C00;
+    display: flex; align-items: center;
+    padding: 0 1rem; z-index: 100;
+  }
+  .navTitle {
+    font-size: 1.5rem; font-weight: 900;
+    color: black; cursor: pointer;
+    margin-right: 2rem;
+  }
+  .search-container {
+    display: flex; flex: 1;
+    margin-left: auto; max-width: 20rem;
+    margin-right: 1rem;
+  }
+  .search-container input {
+    flex: 1; height: 2rem;
+    border: 2px solid #F09C00;
+    border-radius: 10px 0 0 10px;
+    padding: 0 0.5rem; font-size: 0.9rem;
+  }
+  .search-container button {
+    background: #026807; color: white;
+    border: none; padding: 0 1rem;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer; font-weight: 700;
+  }
+  .navBtn {
+    background: #026807; color: white;
+    border: none; border-radius: 20px;
+    outline: 2px solid #F09C00;
+    margin-left: 0.5rem; padding: 0.5rem 1rem;
+    cursor: pointer; font-weight: 700;
+  }
+  
+  /* 3) card wrapper below nav */
+  .inner-form {
+    width: 1026px;
+    margin: 205px auto 0;        /* top:265px–60px nav */
+    background: white;
+    border-radius: 20px;
+    outline: 2px solid #F09C00;
+    outline-offset: -2px;
+    padding: 2rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  /* 4) heading */
+  .sentiment-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: black;
+  }
+  
+  /* 5) three‐column selects */
+  .select-row {
+    display: flex;
+    gap: 75px;            /* per Figma spacing */
+    margin: 0 auto;       /* center the row */
+  }
+  .select-container {
+    position: relative;
+    width: 226.85px;      /* Figma width for Frame1 */
+  }
+  .select-container label {
+    position: absolute;
+    top: -0.8rem;
+    left: 1rem;
+    background: white;
+    padding: 0 4px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #363636;
+    z-index: 1;
+  }
+  .select-container select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 20px;
+    color: #363636;
+    border: 1px solid #363636;
+    border-radius: 8px;
+    background: transparent;
+    appearance: none;
+  }
+  
+  /* 6) Save Changes button */
+  .btn.save-btn {
+    width: 200px;
+    padding: 0.75rem 0;
+    background: #026807;
+    color: white;
+    font-size: 36px;
+    font-weight: 700;
+    border: none;
+    border-radius: 35px;
+    outline: 2px solid #FFB300;
+    cursor: pointer;
+  }
+  
+  /* 7) center form items */
+  .inner-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  

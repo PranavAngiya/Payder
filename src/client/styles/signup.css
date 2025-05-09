@@ -1,4 +1,4 @@
-/* 1) reset & full-viewport */
+/* 1) reset & full‐viewport */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -11,7 +11,7 @@
     overflow: hidden;
   }
   
-  /* 2) page wrapper, center everything */
+  /* 2) page wrapper */
   .page {
     position: relative;
     width: 100vw;
@@ -22,7 +22,7 @@
     background: #255025; /* fallback */
   }
   
-  /* 3) full-screen gradient overlay */
+  /* 3) full‐screen gradient overlay */
   .background {
     position: absolute;
     inset: 0;
@@ -35,7 +35,7 @@
     z-index: 0;
   }
   
-  /* 4) blobs/vectors from Figma */
+  /* 4) blobs/vectors from Figma (same px positions) */
   .page > div[class^="ellipse"],
   .page > div[class^="vector"] {
     position: absolute;
@@ -45,54 +45,54 @@
     z-index: 1;
   }
   .ellipse1 {
-    width: 540.55px; height: 181.11px;
-    left: 1790px; top: 179.66px;
+    width: 488.88px; height: 141.85px;
+    left: 1578px; top: 96.24px;
     background: #FFB300;
     transform: rotate(146deg);
   }
   .vector1 {
-    width: 801.84px; height: 148.67px;
-    left: 1089.88px; top: 347.64px;
+    width: 743.8px; height: 116.45px;
+    left: 940.9px; top: 287.27px;
     background: #026807;
     transform: rotate(146deg);
   }
   .vector2 {
-    width: 668.74px; height: 173px;
-    left: 233.85px; top: 476.73px;
+    width: 612.73px; height: 135.5px;
+    left: 166.45px; top: 458.06px;
     background: #038A08;
     transform: rotate(146deg);
   }
   .vector3 {
-    width: 752.82px; height: 191.92px;
-    left: 1353.19px; top: -221.30px;
+    width: 690.2px; height: 150.32px;
+    left: 1230.67px; top: -214.33px;
     background: #FAFAFA;
     transform: rotate(146deg);
   }
   .ellipse2 {
-    width: 293.88px; height: 361.09px;
+    width: 261.22px; height: 293.39px;
     left: 0; top: 0;
     background: #FFB300;
   }
   .vector4 {
-    width: 519.44px; height: 296.42px;
-    left: 479.33px; top: 287.44px;
+    width: 461.73px; height: 240.84px;
+    left: 426.07px; top: 233.54px;
     background: #026807;
   }
   .vector5 {
-    width: 399.11px; height: 344.93px;
-    left: 1040.89px; top: 679.07px;
+    width: 354.76px; height: 280.25px;
+    left: 925.24px; top: 551.75px;
     background: #038A08;
   }
   .vector6 {
-    width: 451.25px; height: 382.65px;
-    left: 28.08px; top: 623.38px;
+    width: 401.11px; height: 310.91px;
+    left: 24.96px; top: 506.5px;
     background: #FAFAFA;
   }
   
-  /* 5) inner white card */
+  /* 5) centered white card */
   .inner-form {
     position: relative;
-    width: 650px;
+    width: 850px;
     padding: 2rem 1.5rem;
     background: #fff;
     border-radius: 15px;
@@ -111,10 +111,10 @@
     font-weight: 700;
   }
   
-  /* 7) floating-label input */
+  /* 7) floating‐label inputs */
   .input-container {
     position: relative;
-    width: 383px;
+    width: 695.9px;
   }
   .input-container label {
     position: absolute;
@@ -137,12 +137,36 @@
     background: transparent;
   }
   
-  /* 8) space & center form items */
-  .inner-form form {
+  /* 8) three‐column dropdown row */
+  .select-row {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
+    width: 695.9px;
+  }
+  .select-container {
+    position: relative;
+    flex: 1;
+  }
+  .select-container label {
+    position: absolute;
+    top: -0.8rem;
+    left: 1rem;
+    background: #fff;
+    padding: 0 4px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #363636;
+    z-index: 1;
+  }
+  .select-container select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 20px;
+    color: #363636;
+    border: 1px solid #363636;
+    border-radius: 8px;
+    background: transparent;
+    appearance: none;
   }
   
   /* 9) primary button */
@@ -151,7 +175,7 @@
     padding: 0.75rem 0;
     background: #026807;
     color: #fff;
-    font-size: 20px;
+    font-size: 36px;
     font-weight: 700;
     border: none;
     border-radius: 35px;
@@ -160,7 +184,7 @@
     z-index: 2;
   }
   
-  /* 10) secondary link style */
+  /* 10) secondary link (unchanged) */
   .link-btn {
     background: transparent;
     border: none;
@@ -169,5 +193,16 @@
     font-size: 16px;
     cursor: pointer;
     margin-top: 0.5rem;
+  }
+  
+
+  /* -------------------------------- */
+/* align & space signup form items */
+/* -------------------------------- */
+.inner-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;    /* spacing between each field & button */
   }
   

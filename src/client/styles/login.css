@@ -1,75 +1,180 @@
-html{
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    background-image: linear-gradient(to right,rgb(112, 156, 157), rgba(255, 255, 255, 0.642));
+/* 1) reset & full-screen page */
+* { box-sizing: border-box; margin: 0; padding: 0 }
+html, body {
+  width: 100%; height: 100%;
+  font-family: Inter, sans-serif;
+  overflow: hidden;
 }
 
-#widget {
-    display: flex;
-    justify-content: center;
+/* 2) page wrapper, centers card */
+.page {
+  position: relative;
+  width: 100vw; height: 100vh;
+  display: flex; justify-content: center; align-items: center;
+  background: #255025; /* fallback */
 }
 
-.horizontal_radio {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+/* 3) full-screen gradient overlay */
+.background {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(
+      0deg,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.55) 100%
+    ),
+    #4caf50;
+  z-index: 0;
 }
 
-input[type="radio"]{
-    width:auto;
-    margin: 15px;
+/* 4) common blob style */
+.page > div[class^="ellipse"],
+.page > div[class^="vector"] {
+  position: absolute;
+  opacity: 0.78;
+  filter: blur(51.35px);
+  transform-origin: top left;
+  z-index: 1;
 }
 
-.container {
-    background-color: rgb(157, 169, 180);
+/* exact Figma positions */
+.ellipse1 {
+  width: 488.88px; height: 141.85px;
+  left: 1578px; top: 96.24px;
+  background: #FFB300;
+  transform: rotate(146deg);
+}
+.vector1 {
+  width: 743.80px; height: 116.45px;
+  left: 940.90px; top: 287.27px;
+  background: #026807;
+  transform: rotate(146deg);
+}
+.vector2 {
+  width: 612.73px; height: 135.50px;
+  left: 166.45px; top: 458.06px;
+  background: #038A08;
+  transform: rotate(146deg);
+}
+.vector3 {
+  width: 690.20px; height: 150.32px;
+  left: 1230.67px; top: -214.33px;
+  background: #FAFAFA;
+  transform: rotate(146deg);
+}
+.ellipse2 {
+  width: 261.22px; height: 293.39px;
+  left: 0; top: 0;
+  background: #FFB300;
+}
+.vector4 {
+  width: 461.73px; height: 240.84px;
+  left: 426.07px; top: 233.54px;
+  background: #026807;
+}
+.vector5 {
+  width: 354.76px; height: 280.25px;
+  left: 925.24px; top: 551.75px;
+  background: #038A08;
+}
+.vector6 {
+  width: 401.11px; height: 310.91px;
+  left: 24.96px; top: 506.50px;
+  background: #FAFAFA;
+}
+
+/* 5) inner white card, flex-centered */
+.inner-form {
+  position: relative;
+  width: 650px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 15px;
+  outline: 2px solid #F09C00;
+  outline-offset: -2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+/* 6) heading */
+.welcome {
+  font-size: 38px;
+  font-weight: 700;
+}
+
+/* 7) input wrapper */
+.input-container {
+  position: relative;
+  width: 383px;
+}
+/* bracket at corner */
+/* .input-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 14px; height: 14px;
+  border-top: 2px solid #363636;
+  border-left: 2px solid #363636;
+  border-radius: 5px 0 0 5px;
+  background: #fff;
+} */
+/* label above border */
+.input-container > label {
+  position: absolute;
+  top: -1rem;  /* adjust this to sit flush */
+  left: 8px;
+  padding: 0 4px;
+  background: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  color: #363636;
+  z-index: 1;
+}
+/* the input itself */
+.input-container > input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #363636;
+  border-radius: 8px;
+  font-size: 20px;
+  color: #363636;
+  background: transparent;
+  z-index: 0;
+}
+
+/* forgot password link */
+.forgot {
+  position: absolute;
+  right: 0; bottom: -1.2rem;
+  font-size: 14px;
+  text-decoration: underline;
+  color: #363636;
+}
+
+/* 8) buttons */
+.btn {
+  width: 200px;
+  padding: 10px 0;
+  background: #026807;
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+  border: none;
+  border-radius: 35px;
+  outline: 2px solid #FFB300;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* -------------------------------- */
+/* align & space form elements      */
+/* -------------------------------- */
+.inner-form form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: 40%; 
-    min-width: 350px;
-}
-
-button {
-    border-radius: 4px;
-    background-color:cadetblue;
-    color:white;
-    text-decoration: none;
-    padding: 10px;
-    cursor: pointer;
-}
-    
-button:hover {
-    border-radius: 4px;
-    background-color:rgb(112, 156, 157);
-    color:rgba(255, 255, 255, 0.642);
-    text-decoration: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-input {
-    display: block;
-    margin: 10px 0;
-    padding: 8px;
-    width: 200px;
-}
-
-
-
+    gap: 1.5rem;           /* space between inputs and button */
+  }

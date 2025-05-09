@@ -1,390 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Stock Lookup</title>
+  <link rel="stylesheet" href="../../styles/lookup.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+</head>
+<body>
+  <nav class="navBar">
+    <div id="payder" class="navTitle">Payder</div>
+    <div class="search-container">
+      <input id="searchInput" type="text" placeholder="Enter Stock Symbol or Name"/>
+      <button id="searchBtn">Search</button>
+    </div>
+    <button id="settings" class="navBtn">Settings</button>
+    <button id="logout"   class="navBtn">Sign Out</button>
+  </nav>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Stock </title>
-        <link rel="stylesheet" href="../../styles/lookup.css">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-    </head>
+  <main class="inner-form">
+    <div class="CanvasContainer">
+      <canvas id="candlestickChart"></canvas>
+    </div>
 
-    <body>
+    <div class="StockInfoGroup">
+      <div class="StockInfo">
+        <div id="company" class="symbol">—</div>
+        <div id="curr_share_price" class="price">—</div>
+      </div>
+      <div class="UserBp">
+        <div class="bp-label">Buying Power:</div>
+        <div id="balance" class="bp-value">—</div>
+      </div>
+    </div>
 
-        <div class="navBar">
-
-            <div class = "search_bar">
-                <input type="text" id="searchBar" placeholder="Enter Stock Symbol or Name" />
-                <button type="button" id="searchButton">Search<i class="fa-search"></i></button>
-            </div>
-
-            <div id="listing">
-                <ul>
-                    <button id="homepage">Portfolio</button>
-                    <button id="lookup">Stock Lookup</button>
-                    <button id="settings">Account-Settings</button>
-                    <button id="history">History</button>
-                    <button id="logout">Sign-Out</button>
-                    Hello:
-                    <span id="username">Unauthorized User</span>
-                    Current Balance:
-                    <span id="balance">Error</span>
-                </ul>
-            </div>
-
+    <div class="BuyStockGroup">
+      <h2>Buy Stock</h2>
+      <form id="balanceBuyForm">
+        <div class="input-container">
+          <label for="buy_shares">Share Count</label>
+          <input id="buy_shares" name="num_shares" placeholder=" " required>
         </div>
+        <button type="submit" class="btn action-btn">Buy</button>
+      </form>
+    </div>
 
-        <div id="content-wrapper">
-
-            <br>
-            <br>
-            <br>
-            <br>
-
-            <div id="left_side">
-
-                <h5>Stock Data for Company: </h5>
-                <h5 id = "company"> NA </h5>
-                <div class="chart-container">
-                    <canvas id="candlestickChart"></canvas>
-                </div>
-
-                <h6>Current Share Price: </h6>
-                <h6 id="curr_share_price">NAN</h6>
-                <h6>Regular Market Volume: </h6>
-                <h6 id="regular_market_volume">NAN</h6>
-                <h6>Regular Market Day Low: </h6>
-                <h6 id="regular_market_day_low">NAN</h6>
-                <h6>Regular Market Day High: </h6>
-                <h6 id="regular_market_day_high">NAN</h6>
-
-                <div id="switchers">
-                    <button id="button_manual">Buy Share Using Manual Method</button>
-                    <button id="button_automatic">Buy Share Using Current Balance</button>
-                    <button id="button_sell">Sell Shares</button>
-                </div>
-
-            </div>
-
-            <div id="right_side">
-
-                <div id = "buy_manual" class="content-div">
-                    <h3>Manual Payment</h3>
-
-                    <form id="manualBuyForm">
-                        <h4>Name on Credit Card Number</h4>
-                        <input type="text" name="name" placeholder="User's Name" required>
-                        <br>
-                        <h4>Credit Card Number</h4>
-                        <input type="password" name="creditCard" placeholder="Please input your credit card number." required>
-                        <br>
-                        <h4>CVV</h4>
-                        <input type="password" name="cvv" placeholder="Please input CVV." required>
-                        <br>
-                        <h4>Card Expiration Month</h4>
-                        <input type="text" name="expiration_month" placeholder="Expiration Month" required>
-                        <br>
-                        <h4>Card Expiration Year</h4>
-                        <input type="text" name="expiration_year" placeholder="Expiration Year" required>
-                        <br><br>
-                        <h4>How many shares would you like to purchase?</h4>
-                        <input type="number" name="num_shares" placeholder="Number of shares" required>
-                        <br><br>
-                        <button type="submit">Buy Stock</button>
-                    </form>
-
-                </div>
-
-                <div id = "buy_automatic" class="content-div">
-                    <h3>Balance Payment</h3>
-
-                    <form id="balanceBuyForm">
-                        <h4>How many shares would you like to purchase?</h4>
-                        <input type="number" name="num_shares" placeholder="Number of shares" required>
-                        <br><br>
-                        <button type="submit">Buy Stock</button>
-                    </form>
-
-                </div>
-
-                <div id = "sell" class="content-div">
-                    <h3>Sell Stocks</h3>
-
-                    <form id="sellForm">
-                        <h4>How many shares would you like to sell?</h4>
-                        <input type="number" name="num_shares" placeholder="Number of shares" required>
-                        <br><br>
-                        <button type="submit">Sell Shares</button>
-                    </form>
-
-                </div>
-
-            </div>
-
+    <div class="SellStockGroup">
+      <h2 id="sellTitle">Sell Stock</h2>
+      <form id="sellForm">
+        <div class="input-container">
+          <label for="sell_shares">Share Count</label>
+          <input id="sell_shares" name="num_shares" placeholder=" " required>
         </div>
+        <button type="submit" class="btn action-btn" id="sellBtn">Sell</button>
+      </form>
+    </div>
+  </main>
 
-        <script type="module">
-            import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
-            import { apiRequest } from "../../scripts/api.js";
+  <script type="module">
+    import { getUsernameFromToken } from "../../scripts/utils/authCheck.js";
+    import { apiRequest }             from "../../scripts/api.js";
 
-            let curr_price_per_share = null;
-            let symbol = null;
-            let username = null;
-            let stockDataLoaded = false; // Flag to check if stock data has been loaded
+    let symbol = null, curr_price_per_share = null, username = null;
+    let stockDataLoaded = false, candlestickChart;
 
-            let candlestickChart; // Declare globally
+    async function displayUserData(){
+      username = getUsernameFromToken();
+      if(!username) return;
+      const res = await apiRequest("/api/balance","POST",{username});
+      document.getElementById("balance").textContent = res.data.balance ?? "Error";
+    }
 
-            async function displayUserData() {
-                username = getUsernameFromToken();
-                if (username) {
-                    document.getElementById("username").textContent = username;
-                }
+    async function updateChart(data){
+      if(!candlestickChart){
+        const ctx = document.getElementById("candlestickChart").getContext("2d");
+        candlestickChart = new Chart(ctx,{
+          type:"candlestick",
+          data:{datasets:[{label:"Stock Price",data,categoryPercentage:0.2,barPercentage:0.1}]},
+          options:{
+            plugins:{legend:{display:true}},
+            scales:{x:{type:"time",time:{unit:"day"}},y:{beginAtZero:false}}
+          }
+        });
+      } else {
+        candlestickChart.data.datasets[0].data = data;
+        candlestickChart.update();
+      }
+    }
 
-                const response = await apiRequest("/api/balance", "POST", { username });
+    async function searching(){
+      const t = document.getElementById("searchInput").value.trim().toUpperCase();
+      if(!t) return;
+      stockDataLoaded = false;
+      try {
+        const result = await apiRequest("/transaction/search","POST",{ticker:t});
+        if(result?.success && result.data.meta){
+          symbol = result.data.meta.symbol;
+          curr_price_per_share = result.data.meta.regularMarketPrice;
+          document.getElementById("company").textContent = symbol;
+          document.getElementById("curr_share_price").textContent = `$${curr_price_per_share}`;
 
-                if (response?.data?.balance != null) {
-                    document.getElementById("balance").textContent = response.data.balance;
-                } else {
-                    document.getElementById("balance").textContent = "Error";
-                }
-            }
+          // load chart
+          const quotes = result.data.quotes || [];
+          const chartData = quotes.map(q=>({
+            x:new Date(q.date),o:q.open,h:q.high,l:q.low,c:q.close
+          }));
+          updateChart(chartData);
+          stockDataLoaded = true;
 
-            async function handleFormSubmit(event, endpoint, additionalData = {}) {
-                event.preventDefault();
+          // now fetch user’s holdings of this symbol
+          const pRes = await apiRequest("/api/list_portfolio","POST",{username});
+          const portfolio = pRes.data.portfolio||[];
+          const owned = +(portfolio.find(p=>p.ticker===symbol)?.quantity||0);
+          document.getElementById("sellTitle").textContent =
+            `Sell Stock (${owned} shares)`;
+          const sellBtn = document.getElementById("sellBtn");
+          const sellInput = document.getElementById("sell_shares");
+          if(owned>0){
+            sellBtn.disabled=false; sellInput.disabled=false;
+          } else {
+            sellBtn.disabled=true;  sellInput.disabled=true;
+          }
+        } else {
+          alert("Ticker not found.");
+        }
+      } catch(e){ console.error(e); alert("Search error."); }
+    }
 
-                if (!stockDataLoaded) {
-                    alert("Please search for a stock before making a transaction.");
-                    return;
-                }
+    async function handleFormSubmit(e,endpoint,extra={}){
+      e.preventDefault();
+      if(!stockDataLoaded) return alert("Search first.");
+      const qty = parseInt(e.target.num_shares.value.trim());
+      if(!qty||qty<=0) return alert("Invalid share count.");
+      const userData = {username,ticker:symbol,quantity:qty,curr_price:curr_price_per_share,...extra};
+      const r = await apiRequest(endpoint,"POST",userData);
+      if(r.success){
+        alert("Transaction successful");
+        displayUserData();
+        e.target.reset();
+      } else {
+        alert(`Error: ${r.message}`);
+      }
+    }
 
-                let formElement = event.target;
-                const quantityInput = formElement.querySelector('input[name="num_shares"]');
-                const quantity = quantityInput ? quantityInput.value.trim() : null;
+    document.addEventListener("DOMContentLoaded",()=>{
+      displayUserData();
 
-                if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
-                    alert("Please enter a valid number of shares.");
-                    return;
-                }
+      // auto-search if URL is lookup?TSLA
+      const q = window.location.search.slice(1);
+      if(q){
+        document.getElementById("searchInput").value = decodeURIComponent(q);
+        searching();
+      }
 
-                const userData = {
-                    username: username,
-                    ticker: symbol,
-                    quantity: parseInt(quantity),
-                    curr_price: curr_price_per_share,
-                    ...additionalData
-                };
+      // nav handlers
+      document.getElementById("payder").onclick = () =>
+        window.location.href = "../portfolio/userHome.html";
+      document.getElementById("searchBtn").onclick = searching;
+      document.getElementById("settings").onclick = () =>
+        window.location.href = "../settings/settings.html";
+      document.getElementById("logout").onclick = () => {
+        localStorage.removeItem("authToken");
+        window.location.href = "/src/client/pages/entry_pages/login.html";
+      };
 
-                const result = await apiRequest(endpoint, "POST", userData);
-
-                if (result?.success) {
-                    alert("Transaction successfully processed...");
-                    // Optionally clear the form or update UI
-                    formElement.reset();
-                    displayUserData(); // Update balance after transaction
-                } else {
-                    alert(`Error in processing transaction: ${result?.message || 'An unknown error occurred.'}`);
-                }
-            }
-
-            document.addEventListener('submit', function(event) {
-                if (event.target.id === 'manualBuyForm') {
-                    const name = event.target.name.value.trim();
-                    const creditCard = event.target.creditCard.value.trim();
-                    const cvv = event.target.cvv.value.trim();
-                    const expiration_month = event.target.expiration_month.value.trim();
-                    const expiration_year = event.target.expiration_year.value.trim();
-
-                    handleFormSubmit(event, "/transaction/buy_manual", {
-                        name: name,
-                        card_num: creditCard,
-                        cvv: cvv,
-                        exp_month: expiration_month,
-                        exp_year: expiration_year
-                    });
-                } else if (event.target.id === 'balanceBuyForm') {
-                    handleFormSubmit(event, "/transaction/buy_balance");
-                } else if (event.target.id === 'sellForm') {
-                    handleFormSubmit(event, "/transaction/sell");
-                }
-            });
-
-            async function searching() {
-                const stockSymbol = document.getElementById("searchBar").value.trim().toUpperCase();
-                console.log(`Searching for: ${stockSymbol}`);
-                stockDataLoaded = false; // Reset the flag on a new search
-
-                try {
-
-                    const result = await apiRequest("/transaction/search", "POST", { ticker: stockSymbol });
-                    console.log("API result:", result);
-
-                    if (result?.success && result.data?.meta) {
-                        symbol = result.data.meta.symbol;
-
-                        document.getElementById("company").innerText = result.data.meta.symbol;
-                        document.getElementById("curr_share_price").innerText = result.data.meta.regularMarketPrice;
-                        document.getElementById("regular_market_volume").innerText = result.data.meta.regularMarketVolume;
-                        document.getElementById("regular_market_day_low").innerText = result.data.meta.regularMarketDayLow;
-                        document.getElementById("regular_market_day_high").innerText = result.data.meta.regularMarketDayHigh;
-
-                        curr_price_per_share = result.data.meta.regularMarketPrice;
-                        stockDataLoaded = true; // Set the flag as stock data is now loaded
-
-                        if (result.data?.quotes) {
-                            const quotes = result.data.quotes;
-
-                            const formattedData = quotes.map(quote => ({
-                                x: new Date(quote.date),
-                                o: quote.open,
-                                h: quote.high,
-                                l: quote.low,
-                                c: quote.close
-                            }));
-
-                            updateChart(formattedData);
-                        } else {
-                            // If meta data is present but no quotes, still update company info
-                            if (!candlestickChart) {
-                                const ctx = document.getElementById('candlestickChart').getContext('2d');
-                                candlestickChart = new Chart(ctx, {
-                                    type: 'candlestick',
-                                    data: {
-                                        datasets: [{
-                                            label: 'Stock Price',
-                                            data: [],
-                                            categoryPercentage: 0.2,
-                                            barPercentage: 0.1
-                                        }]
-                                    },
-                                    options: {
-                                        plugins: {
-                                            legend: {
-                                                display: true
-                                            }
-                                        },
-                                        scales: {
-                                            x: {
-                                                type: 'time',
-                                                time: {
-                                                    unit: 'day'
-                                                }
-                                            },
-                                            y: {
-                                                beginAtZero: false
-                                            }
-                                        }
-                                    }
-                                });
-                            } else {
-                                candlestickChart.data.datasets[0].data = [];
-                                candlestickChart.update();
-                            }
-                        }
-                    } else {
-                        alert(`Search failed: ${result?.message || 'Invalid ticker or no data found.'}`);
-                        document.getElementById("company").innerText = "NA";
-                        document.getElementById("curr_share_price").innerText = "NAN";
-                        document.getElementById("regular_market_volume").innerText = "NAN";
-                        document.getElementById("regular_market_day_low").innerText = "NAN";
-                        document.getElementById("regular_market_day_high").innerText = "NAN";
-                        if (candlestickChart) {
-                            candlestickChart.data.datasets[0].data = [];
-                            candlestickChart.update();
-                        }
-                        symbol = null;
-                        curr_price_per_share = null;
-                        stockDataLoaded = false; // Ensure flag is reset on failure
-                    }
-                } catch (error) {
-                    console.error("Error during API request:", error);
-                    alert("An unexpected error occurred during the search.");
-                    stockDataLoaded = false; // Ensure flag is reset on error
-                }
-            }
-
-            function updateChart(newData) {
-                if (!candlestickChart) {
-                    const ctx = document.getElementById('candlestickChart').getContext('2d');
-                    candlestickChart = new Chart(ctx, {
-                        type: 'candlestick',
-                        data: {
-                            datasets: [{
-                                label: 'Stock Price',
-                                data: newData,
-                                categoryPercentage: 0.2,
-                                barPercentage: 0.1
-                            }]
-                        },
-                        options: {
-                            plugins: {
-                                legend: {
-                                    display: true
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    type: 'time',
-                                    time: {
-                                        unit: 'day'
-                                    }
-                                },
-                                y: {
-                                    beginAtZero: false
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    candlestickChart.data.datasets[0].data = newData;
-                    candlestickChart.update();
-                }
-            }
-
-            document.addEventListener("DOMContentLoaded", () => {
-                displayUserData();
-
-                //Display buy manual, buy automatic, or sell screens on button click
-                function showDiv(divId) {
-                    const allDivs = document.querySelectorAll('.content-div');
-                    allDivs.forEach(div => div.classList.remove('active'));
-
-                    const selectedDiv = document.getElementById(divId);
-                    if (selectedDiv) {
-                        selectedDiv.classList.add('active');
-                    }
-                }
-
-                //Default to displaying buy automatic
-                showDiv('buy_automatic');
-
-                document.getElementById("button_manual").addEventListener("click", () => showDiv("buy_manual"));
-                document.getElementById("button_automatic").addEventListener("click", () => showDiv("buy_automatic"));
-                document.getElementById("button_sell").addEventListener("click", () => showDiv("sell"));
-
-                // Initialize chart with placeholder data
-                const initialData = [
-                    { x: new Date('2024-04-01'), o: 100, h: 110, l: 90, c: 105 },
-                    { x: new Date('2024-04-02'), o: 105, h: 115, l: 95, c: 100 },
-                    { x: new Date('2024-04-03'), o: 100, h: 120, l: 85, c: 110 },
-                    { x: new Date('2024-04-04'), o: 110, h: 130, l: 105, c: 125 }
-                ];
-                updateChart(initialData);
-
-                // Button listeners
-                document.getElementById("searchButton").addEventListener('click', searching);
-                document.getElementById("homepage").addEventListener("click", () => window.location.href = "userHome.html");
-                document.getElementById("settings").addEventListener("click", () => window.location.href = "/src/client/pages/settings/settings.html");
-                document.getElementById("history").addEventListener("click", () => window.location.href = "history.html");
-                document.getElementById("logout").addEventListener("click", () => {
-                    localStorage.removeItem("authToken");
-                    window.location.href = "/src/client/pages/entry_pages/login.html";
-                });
-            });
-        </script>
-
-
-    </body>
-
+      // buy/sell forms
+      document.getElementById("balanceBuyForm")
+        .addEventListener("submit", e=>handleFormSubmit(e,"/transaction/buy_balance"));
+      document.getElementById("sellForm")
+        .addEventListener("submit", e=>handleFormSubmit(e,"/transaction/sell"));
+    });
+  </script>
+</body>
 </html>

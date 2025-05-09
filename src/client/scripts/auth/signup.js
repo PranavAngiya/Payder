@@ -12,9 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = form.password.value.trim();
         const confirmPassword = form.confirm_password.value.trim();
 
-        const experience = form.updated_experience.value.trim();
-        const tolerance = form.updated_risk_tolerance.value.trim();
-        const goals = form.updated_goals.value.trim();
+        const experience = form.experience.value.trim();
+        const tolerance = form.risk.value.trim();
+        const goals = form.goals.value.trim();
 
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
