@@ -130,7 +130,7 @@ npm run dev       # launch backend with nodemon
 
 # In client directory:
 cd src/client
-npx serve .       # serve frontend on default port (usually 5000+)
+npx serve .       # serve frontend on default port
 ```
 
 Open your browser to:
