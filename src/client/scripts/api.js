@@ -1,9 +1,14 @@
 const API_BASE_URL = "http://localhost:8081/server"; // Base URL for API requests
 
 async function apiRequest(endpoint, method = "GET", data = null) {
+
+    const token = localStorage.getItem("authToken");
+
     const options = {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
+         },
     };
 
     if (data) {

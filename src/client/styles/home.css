@@ -71,6 +71,7 @@ html, body {
   background: white;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  outline: 2px solid #F09C00;
 }
 
 /* Title */
@@ -80,6 +81,19 @@ html, body {
   font-weight: 900;
   margin-bottom: 1rem;
 }
+
+/* ↓ below your .inner-form rules */
+.chart-wrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 300px !important;
+  display: block;
+}
+
 
 /* Buying Power */
 .balance-container {
@@ -115,3 +129,16 @@ html, body {
   justify-content: space-between;
   color: black;
 }
+#portfolio-list li.gain {
+  background: #4CAF50;
+  color: white;
+}
+#portfolio-list li.loss {
+  background: #EB0000;
+  color: white;
+}
+
+#portfolio-list li .net-change {
+  font-weight: 700;
+}
+

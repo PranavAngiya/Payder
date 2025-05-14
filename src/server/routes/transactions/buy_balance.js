@@ -58,8 +58,9 @@ router.post('/', async (req, res) => {
             if(stocks.length === 0){
 
                 //There are currently no stocks in your portfolio
-                query = 'INSERT INTO portfolio (ticker, quantity, user_id) VALUES (?,?,?)';
-                await db.query(query, [ticker, quantity, userID]);
+                query = 'INSERT INTO portfolio (ticker, quantity, user_id, purchase_price) VALUES (?,?,?,?)';
+                print(query);
+                await db.query(query, [ticker, quantity, userID, curr_price]);
 
                 // Update user's account balance
                 balance -= totalCost;
@@ -87,8 +88,8 @@ router.post('/', async (req, res) => {
                     }
 
                     //Insert new purchased stock into your portfolio
-                    query = 'INSERT INTO portfolio (ticker, quantity, user_id) VALUES (?,?,?)';
-                    await db.query(query, [ticker, quantity, userID]);
+                    query = 'INSERT INTO portfolio (ticker, quantity, user_id, purchase_price) VALUES (?,?,?,?)';
+                    await db.query(query, [ticker, quantity, userID, curr_price]);
 
                     // Update user's account balance
                     balance -= totalCost;

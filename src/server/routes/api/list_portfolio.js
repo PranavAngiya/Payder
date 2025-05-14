@@ -23,7 +23,7 @@ router.post('/', async (req, res) => { // Kept as router.post and the path
 
         // Get the user's portfolio
         const portfolioQuery = `
-            SELECT ticker, quantity
+            SELECT ticker, quantity, purchase_price
             FROM portfolio
             WHERE user_id = ?
         `;

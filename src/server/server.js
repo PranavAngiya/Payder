@@ -14,6 +14,8 @@ app.use(express.json());
 const router = require('./routes/routesIndex');
 app.use('/server', router);
 
+require('./jobs/logUserValue');
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:` + PORT);
 });

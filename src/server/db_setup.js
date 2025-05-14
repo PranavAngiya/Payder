@@ -82,6 +82,7 @@ const createPortfolioTable = `
         f_id INT AUTO_INCREMENT PRIMARY KEY,
         ticker VARCHAR(5),
         quantity INT,
+        purchase_price DECIMAL(15,2),
         user_id INT,
         FOREIGN KEY (user_id) REFERENCES users(id)
     )`;
@@ -93,5 +94,22 @@ db.query(createPortfolioTable, err => {
     };
     console.log("Portfolio table verified");
 });
+
+const createUserValueTable = `
+    CREATE TABLE IF NOT EXISTS uservalue (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    timestamp DATETIME NOT NULL,
+    total_value DECIMAL(16,2) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )`;
+db.query(createUserValueTable, err => {
+    if (err){
+        console.error('Error creating users table:', err);
+        process.exit(1);
+    };
+    console.log("User Value table verified");
+});
+
 
 module.exports = db;

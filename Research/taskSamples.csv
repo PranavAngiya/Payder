@@ -1,0 +1,53 @@
+﻿Consulting Insights|Barron's|Retrieve expert opinions on the outlook for the electric vehicle industry.. Summarize key insights from analysts and reports.
+Consulting Insights|Fortune|Search for articles and reports from market analysts discussing the future of the electric vehicle industry.. Compile a summary of their insights.
+Consulting Insights| |Analyze social media sentiment regarding the electric vehicle industry.. Gather data from Twitter and Reddit to assess public sentiment about electric vehicles.
+Market Analysis| |Fetch Tesla stock price and historical data for the past month.. Retrieve the current Tesla Inc. (TSLA) stock price from Yahoo Finance and export the last 30 days of daily closing prices into a CSV file.
+News Monitoring| |Gather breaking news related to Apple Inc. (AAPL) stock price.. Monitor major financial news outlets for the latest updates about Apple Inc., summarize any news affecting its stock price, and email me daily reports.
+Portfolio Management| |Analyze and compare the user's portfolio with S&P 500 index performance.. Compare my investment portfolio's performance with the S&P 500 index over the past year. Include returns, volatility, and risk metrics in a graphical report.
+Risk Assessment| |Analyze potential risks associated with investing in cryptocurrencies.. Compile information about recent events that have caused market volatility in cryptocurrencies. Highlight the risks of investing in Bitcoin, Ethereum, and other major coins.
+Stock Screening| |Identify stocks with a P/E ratio below 15 and a market cap above $10 billion.. Filter stocks on Yahoo Finance to find those with a P/E ratio under 15 and a market capitalization over $10 billion. Provide a list of these stocks with their current prices.
+Stock Screening| |Find stocks in the healthcare sector with a dividend yield above 3%.. Search for healthcare sector stocks on Yahoo Finance that have a dividend yield greater than 3%. Provide a list of these stocks with their ticker symbols and dividend yields.
+Stock Screening| |Identify top dividend-paying stocks in the technology sector.. Find technology sector stocks with a dividend yield higher than 4% and a positive EPS growth over the past two quarters. Provide a list with ticker symbols and key metrics.
+Stock Screening| |Analyze earnings reports for companies in the consumer goods sector.. Gather earnings reports for the last quarter from major consumer goods companies. Summarize key metrics like EPS, revenue growth, and guidance for the next quarter.
+Stock Screening| |Analyze earnings reports and forecasts to identify potential investment opportunities.
+Stock Screening| |Identify undervalued stocks in the energy sector.. Search for energy sector stocks with a P/E ratio below 10 and a market cap above $5 billion. Provide a list of these stocks with their current prices and P/E ratios.
+Stock Screening| |Find high-growth stocks in the technology sector.. Filter technology sector stocks with a revenue growth rate above 20% and a market cap above $10 billion. Provide a list of these stocks with their current prices and growth rates.
+Stock Screening| |Filter stocks based on criteria like market capitalization, P/E ratio, or dividend yield.
+Stock Screening| |Identify stocks with a market cap above $50 billion and a P/E ratio below 20.
+Stock Screening| |Find stocks with a dividend yield above 4% and a market cap above $10 billion.
+Stock Screening| |Identify undervalued stocks or high-growth opportunities.
+Stock Screening| |Generate watchlists based on user-defined criteria.
+test| |Do nothing.
+test| |Perform a default task.
+test| |Grab the header line of the webpage.
+test| |Go to Reddit, search for 'browser-use', click on the first post and return the first comment.
+test| |Go to Reddit r/StockMarket, return with a summary about the temperature of the recent stock market.
+test| |Compare the stock prices of Apple and Microsoft over the last month.
+test| |Go to Yahoo Finance, search for Tesla, and return the last 30 days of daily closing prices. Please provide the data in a graphic form.
+macro| |Has Trump created a recession? Trump has made Russia great again.
+macro| |What is the best time to invest in the stock market?
+micro| |I am a college student trying to make the first million dollars. Is this market crush a good time to invest?
+micro| |I am a conservative investor. What Stop-Loss price to set for my 1000 shares of <symbol> holding?
+macro| |What is the best time to invest in the stock market?
+Market Analysis| |Retrieve real-time stock prices and historical data for specific companies.
+Market Analysis| |Analyze trends and patterns in stock performance using data from financial websites.
+Portfolio Management| |Create and manage a diversified investment portfolio based on user-defined criteria.
+Portfolio Management| |Monitor portfolio performance and suggest rebalancing strategies based on market conditions.
+Portfolio Management| |Generate reports on portfolio performance and suggest rebalancing strategies.
+Portfolio Management| |Compare different investment options based on risk and return profiles.
+Portfolio Management| |Provide insights on sector performance and suggest sector rotation strategies.
+Portfolio Management| |Analyze the impact of macroeconomic factors on portfolio performance.
+News Monitoring| |Track news articles and updates about companies or industries that impact stock prices.
+News Monitoring| |Identify breaking news that could influence market movements.
+Consulting Insights| |Provide summaries of expert opinions and recommendations from financial analysts.
+Consulting Insights| |Analyze sentiment from social media and news articles to gauge market sentiment.
+Consulting Insights| |Gather insights from forums and blogs about market sentiment.
+Risk Assessment| |Evaluate the potential risks associated with specific investments.
+Risk Assessment| |Analyze the volatility of stocks and suggest risk management strategies.
+Risk Assessment| |Assess the impact of geopolitical events on stock prices.
+Risk Assessment| |Monitor economic indicators and their potential impact on the stock market.
+Risk Assessment| |Provide insights on sector performance and suggest sector rotation strategies.
+Risk Assessment| |Analyze the impact of macroeconomic factors on portfolio performance.
+Risk Assessment| |Suggest diversification strategies to minimize exposure.
+Trade Execution| |Monitor stock prices and execute trades when target prices are reached.
+Trade Execution| |Automate the buying of Amazon stock if the price drops below $100.. Set up a script to monitor Amazon's stock price and automatically place a buy order if it falls below $100. Include a stop-loss order at $95.

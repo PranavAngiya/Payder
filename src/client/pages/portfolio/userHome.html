@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Homepage</title>
   <link rel="stylesheet" href="../../styles/home.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script type="module" src="../../scripts/pages/userHome.js"></script>
 </head>
 <body>
   <script type="module" src="../../scripts/utils/authCheck.js"></script>
@@ -26,6 +29,10 @@
   <!-- MAIN CARD -->
   <main class="inner-form">
     <h2 id="portfolio-title">Your Portfolio</h2>
+
+    <div class = "chart-wrapper">
+      <canvas id="valueChart"></canvas>
+    </div>
 
     <div class="balance-container">
       Buying Power: <span id="balance">Error</span>
@@ -72,10 +79,10 @@
         console.error("Failed to fetch portfolio:", portfolioResponse?.message);
         portfolioData = [];
       }
-      displayPortfolio();
+      await displayPortfolio();
     }
 
-    function displayPortfolio() {
+    async function displayPortfolio() {
       const list = document.getElementById("portfolio-list");
       list.innerHTML = "";
 
@@ -86,11 +93,33 @@
         return;
       }
 
-      portfolioData.forEach(item => {
+      for (const item of portfolioData) {
+        // 1) fetch current price via your existing search endpoint
+        const quoteRes = await apiRequest(
+          "/transaction/search", "POST", { ticker: item.ticker }
+        );
+        const currPrice = quoteRes?.data?.meta?.regularMarketPrice ?? 0;
+
+        // 2) compute net gain/loss
+        const net = ((currPrice - item.purchase_price) * item.quantity).toFixed(2);
+        const sign = net >= 0 ? "+" : "-";
+
+        // 3) build <li> with left/right spans
         const li = document.createElement("li");
-        li.textContent = `${item.ticker}: ${item.quantity} shares`;
+        li.innerHTML = `
+          <span class="left">${item.ticker}: ${item.quantity} shares</span>
+          <span class="net-change ${net>=0?'gain':'loss'}">
+            ${sign}$${Math.abs(net)}
+          </span>
+        `;
         list.appendChild(li);
-      });
+        li.classList.add(net >= 0 ? "gain" : "loss");
+        li.innerHTML = `
+        <span class="left">${item.ticker}: ${item.quantity} shares</span>
+        <span class="net-change">${sign}$${Math.abs(net)}</span>
+       `;
+       list.appendChild(li);
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
